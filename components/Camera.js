@@ -2,6 +2,7 @@ import React from 'react';
 import { RNCamera } from 'react-native-camera';
 import { StyleSheet, Alert, TouchableOpacity, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import styles from './Styles'
 
 export default class Camera extends React.Component {
   constructor(props) {
@@ -21,7 +22,8 @@ export default class Camera extends React.Component {
       this.setState({takingPic: true});
       try {
          const data = await this.camera.takePictureAsync(options);
-         Alert.alert('Success', JSON.stringify(data));
+         this.props.newImage(data.uri)
+         console.log(data)
       } catch (err) {
         Alert.alert('Error', 'Failed to take picture: ' + (err.message || err));
         return;
@@ -40,44 +42,16 @@ export default class Camera extends React.Component {
           }}
           style={{ flex: 1 }}
           captureAudio={false}
-          type={RNCamera.Constants.Type.back}
-        />
-        <TouchableOpacity
-          activeOpacity={0.5}
-          style={styles.btnAlignment}
-          onPress={this.takePicture}>
-          <Icon name="camera" size={50} color="#fff" />
-        </TouchableOpacity>
+          type={RNCamera.Constants.Type.back}>
+          <TouchableOpacity
+            activeOpacity={1}
+            style={styles.btnAlignment}
+            onPress={this.takePicture}>
+            <Icon name="camera" size={100} color="#fff" />
+          </TouchableOpacity>
+        </RNCamera>
       </View>
     )
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: 'black',
-  },
-  preview: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-  capture: {
-    flex: 0,
-    backgroundColor: '#fff',
-    borderRadius: 5,
-    padding: 15,
-    paddingHorizontal: 20,
-    alignSelf: 'center',
-    margin: 20,
-  },
-  btnAlignment: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-});
