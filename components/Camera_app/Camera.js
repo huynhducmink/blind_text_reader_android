@@ -2,7 +2,7 @@ import React from 'react';
 import { RNCamera } from 'react-native-camera';
 import { StyleSheet, Alert, TouchableOpacity, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
-import styles from './Styles'
+import styles from '../Styles'
 
 export default class Camera extends React.Component {
   constructor(props) {
@@ -47,7 +47,7 @@ export default class Camera extends React.Component {
             activeOpacity={1}
             style={styles.btnAlignment}
             onPress={this.takePicture}>
-            <Icon name="camera" size={100} color="#fff" />
+            <Icon name="camera" size={50} color="#fff" />
           </TouchableOpacity>
         </RNCamera>
       </View>

@@ -27,4 +27,9 @@ export default styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 20,
   },
+  button: {
+    alignItems: "center",
+    backgroundColor: "#DDDDDD",
+    padding: 10
+  },
 });
