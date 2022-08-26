@@ -1,10 +1,13 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
+
+const { width, height} = Dimensions.get('window')
 
 export default styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: 'black',
+    backgroundColor: 'white',
+    justifyContent: 'center'
   },
   preview: {
     flex: 1,
@@ -30,6 +33,6 @@ export default styles = StyleSheet.create({
   button: {
     alignItems: "center",
     backgroundColor: "#DDDDDD",
-    padding: 10
-  },
+    padding: 20
+  }
 });

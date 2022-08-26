@@ -3,7 +3,7 @@ import Camera from './components/Camera_app/Camera';
 import { Image, TouchableOpacity, View } from 'react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import styles from './components/Styles'
-import ENGD_scene from './components/ENGD_app/ENGD_scene';
+import ENDG_scene from './components/ENDG_app/ENDG_scene';
 
 class App extends React.Component{
   constructor(props){
@@ -12,7 +12,7 @@ class App extends React.Component{
 
   render(){
     return(
-      <ENGD_scene scene_num = {1}/>
+      <ENDG_scene scene_num = {1}/>
     )
   }
 
