@@ -3,22 +3,20 @@ import Camera from './components/Camera_app/Camera';
 import { Image, TouchableOpacity, View } from 'react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import styles from './components/Styles'
-import ENDG_scene from './components/ENDG_app/ENDG_scene';
+import ENDG_app from './components/ENDG_app/ENDG_app';
 
 class App extends React.Component{
   constructor(props){
     super(props);
   }
-
   render(){
     return(
-      <ENDG_scene scene_num = {1}/>
+      <ENDG_app/>
     )
   }
 
 }
-
-
+export default App
 
 
 
@@ -71,5 +69,3 @@ class App extends React.Component{
 //    };
 //  };
 //};
-
-export default App
