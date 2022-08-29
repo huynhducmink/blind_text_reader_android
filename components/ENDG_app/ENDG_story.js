@@ -57,11 +57,11 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   text: {
+    // fontFamily:"Manuale",
     fontWeight:'bold',
-    fontSize: 20,
-    paddingTop:20
+    fontSize: 25,
   },
   textbox: {
-    height: 160
+    height: 200
   }
 });

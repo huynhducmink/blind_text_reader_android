@@ -1,6 +1,6 @@
 import { resizeMode } from "deprecated-react-native-prop-types/DeprecatedImagePropType";
 import React from "react";
-import { Text, View, StatusBar, StyleSheet, Image, TouchableWithoutFeedback} from "react-native"
+import { Text, View, StatusBar, StyleSheet, Image, TouchableWithoutFeedback, BackHandler} from "react-native"
 import { ENDG_image } from "./ENDG_image";
 
 export default class ENDG_menu extends React.Component{
@@ -26,11 +26,13 @@ export default class ENDG_menu extends React.Component{
               </Text>
             </View>
           </TouchableWithoutFeedback>
-          <View style={styles.button}>
-            <Text style={styles.button_text}>
-              Thoát 
-            </Text>
-          </View>
+          <TouchableWithoutFeedback onPress={() => BackHandler.exitApp()}>
+            <View style={styles.button}>
+              <Text style={styles.button_text}>
+                Thoát
+              </Text>
+            </View>
+          </TouchableWithoutFeedback>
         </View>
       </View>
     )
@@ -59,12 +61,12 @@ const styles = StyleSheet.create({
   },
   title: {
     position:"absolute",
-    top:30,
-    left:100,
-    right:100,
-    fontSize:64,
+    top:50,
+    left:0,
+    right:0,
+    fontSize:70,
     fontWeight:"900",
-    color: "#396d3b",
+    color: "#153516",
     textTransform:"uppercase",
     fontFamily:"Manuale",
     textAlign:"center",
@@ -72,6 +74,7 @@ const styles = StyleSheet.create({
     justifyContent:"center",
     display:"flex",
     // backgroundColor:"white",
+    height: 300,
   },
   buttoncontainer: {
     position:"absolute",
@@ -80,13 +83,17 @@ const styles = StyleSheet.create({
     alignItems:"center",
     justifyContent:"space-between",
     width: "100%",
-    height: 180,
+    height: 150,
     // backgroundColor:"white",
   },
   button: {
     width:"80%",
-    height:70,
-    // backgroundColor:"white",
+    height:60,
+    backgroundColor:"white",
+    justifyContent:"center",
+    opacity:0.8,
+    alignItems:"center",
+    borderRadius: 30,
   },
   button_text: {
     fontSize:40,
