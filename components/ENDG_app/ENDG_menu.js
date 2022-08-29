@@ -11,24 +11,24 @@ export default class ENDG_menu extends React.Component{
   render(){
     return(
       <View style={styles.container}>
-        <StatusBar hidden={true}/>
+        {/* <StatusBar hidden={true}/> */}
         <View style={styles.background}>
           <Image source={ENDG_image[1].uri} style={styles.image}/>
         </View>
-        <Text style={styles.title}>
+        <Text style={styles.title} adjustsFontSizeToFit>
           Ếch ngồi đáy giếng
         </Text>
         <View style={styles.buttoncontainer}>
           <TouchableWithoutFeedback onPress={() => this.props.change_to_story()}>
             <View style={styles.button}>
-              <Text style={styles.button_text}>
+              <Text style={styles.button_text} adjustsFontSizeToFit>
                 Đọc truyện
               </Text>
             </View>
           </TouchableWithoutFeedback>
           <TouchableWithoutFeedback onPress={() => BackHandler.exitApp()}>
             <View style={styles.button}>
-              <Text style={styles.button_text}>
+              <Text style={styles.button_text} adjustsFontSizeToFit>
                 Thoát
               </Text>
             </View>
@@ -61,10 +61,10 @@ const styles = StyleSheet.create({
   },
   title: {
     position:"absolute",
-    top:50,
+    top:80,
     left:0,
     right:0,
-    fontSize:70,
+    fontSize:60,
     fontWeight:"900",
     color: "#153516",
     textTransform:"uppercase",
@@ -73,8 +73,8 @@ const styles = StyleSheet.create({
     alignItems:"center",
     justifyContent:"center",
     display:"flex",
-    // backgroundColor:"white",
     height: 300,
+    padding:20
   },
   buttoncontainer: {
     position:"absolute",
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     flexDirection:"column",
     alignItems:"center",
     justifyContent:"space-between",
-    width: "100%",
+    width: "90%",
     height: 150,
     // backgroundColor:"white",
   },
@@ -102,6 +102,6 @@ const styles = StyleSheet.create({
     fontFamily:"Manrope",
     color: "#000",
     textAlign:"center",
-    justifyContent:"center",
+    padding:5,
   }
 })
