@@ -1,5 +1,5 @@
 import React from "react";
-import Task_screen from "./Task/Task_screen";
+import Task_screen from "./Task_screen/Task_screen";
 
 export default class Main_app extends React.Component{
   constructor(props){
