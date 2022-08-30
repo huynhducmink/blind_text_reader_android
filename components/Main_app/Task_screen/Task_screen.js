@@ -13,7 +13,7 @@ export default class Task_screen extends React.Component{
   constructor(props){
     super(props)
     this.state={
-      search_text:""
+      search_text:"",
     }
     this.set_search_text = this.set_search_text.bind()
   }
@@ -48,6 +48,8 @@ export default class Task_screen extends React.Component{
           </View>
         </View>
         <View style={styles.taskcontainer}>
+          {<Task taskname="Meeting" tasknote="C9-410 2PM 16/08" date="16/08" time="9:00 PM"/>}
+          {<Task taskname="Gửi báo cáo" tasknote="Ask about the ..." date="21/08" time="9:00 PM"/>}
         </View>
       </View>
       </TouchableWithoutFeedback>
@@ -55,3 +57,31 @@ export default class Task_screen extends React.Component{
   }
 }
 
+class Task extends React.Component{
+  constructor(props){
+    super(props)
+  }
+  render(){
+    return (
+      <View style={styles.intaskcontainer}>
+        <Image source={require("./assets/images/untick.png")} style={{ flex: 1, resizeMode: "contain" }} />
+        <View style={{ flex: 6, height: "100%", justifyContent:"space-around" }}>
+          <Text style={{height:"40%",fontSize:25, color:"black", textAlignVertical:"center",fontFamily:"Lexend Deca"}}>
+            {this.props.taskname}
+          </Text>
+          <Text style={{height:"35%",fontSize:15, color:"gray", textAlignVertical:"center"}}>
+            {this.props.tasknote}
+          </Text>
+        </View>
+        <View style={{ flex: 2, padding:10 }}>
+          <Text style={{height:"35%",fontSize:15, color:"black", textAlign:"center"}}>
+            {this.props.time}
+          </Text>
+          <Text style={{height:"35%",fontSize:15, color:"black", textAlign:"center"}}>
+            {this.props.date}
+          </Text>
+        </View>
+      </View>
+    )
+  }
+};

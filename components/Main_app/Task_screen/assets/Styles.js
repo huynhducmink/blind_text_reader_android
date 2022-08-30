@@ -69,7 +69,18 @@ export default styles = StyleSheet.create({
   taskcontainer: {
     flex: 8,
     flexDirection: 'column',
-    backgroundColor: '#FFFFFF',
-    // justifyContent: 'center'
+    backgroundColor: '#F0F0F0',
+    alignItems:'center',
+    justifyContent:"flex-start"
   },
+  intaskcontainer: {
+    flexDirection:"row",
+    margin: 10,
+    width: "90%",
+    height: 80,
+    borderRadius:20,
+    backgroundColor: "white",
+    alignItems:"center",
+    justifyContent:"center"
+  }
 })
