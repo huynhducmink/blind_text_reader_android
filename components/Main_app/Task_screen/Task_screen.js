@@ -8,6 +8,8 @@ import {
   Keyboard,
  } from "react-native";
 import styles from "./assets/Styles"
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { launchImageLibrary } from "react-native-image-picker";
 
 export default class Task_screen extends React.Component{
   constructor(props){
@@ -50,6 +52,8 @@ export default class Task_screen extends React.Component{
         <View style={styles.taskcontainer}>
           {<Task taskname="Meeting" tasknote="C9-410 2PM 16/08" date="16/08" time="9:00 PM"/>}
           {<Task taskname="Gửi báo cáo" tasknote="Ask about the ..." date="21/08" time="9:00 PM"/>}
+          <View style={{ position: "absolute", bottom: 30, right: 30, height: 90, width: 90, borderRadius: 100, backgroundColor:"white"  }}>
+          </View>
         </View>
       </View>
       </TouchableWithoutFeedback>

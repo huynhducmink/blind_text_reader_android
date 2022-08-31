@@ -9,8 +9,8 @@ class App extends React.Component{
   }
   render(){
     return(
-      //<ENDG_app/>
-      <Main_app/>
+      <ENDG_app/>
+      //<Main_app/>
     )
   }
 

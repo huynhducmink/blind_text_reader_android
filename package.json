@@ -10,11 +10,15 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.17.10",
     "deprecated-react-native-prop-types": "^2.3.0",
     "react": "18.0.0",
     "react-native": "0.69.4",
     "react-native-camera": "^4.2.1",
     "react-native-elements": "^3.4.2",
+    "react-native-fs": "^2.20.0",
+    "react-native-image-base64-png": "^0.2.1",
+    "react-native-image-picker": "^4.10.0",
     "react-native-mlkit-ocr": "^0.2.5",
     "react-native-vector-icons": "^9.2.0"
   },
