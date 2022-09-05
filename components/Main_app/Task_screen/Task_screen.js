@@ -28,77 +28,80 @@ export default class Task_screen extends React.Component{
     this.render_task = this.render_task.bind()
   }
 
+  task_list = []
+  task_to_edit = {}
+  search_text = ""
+
   componentDidMount = () => {
     //load data from database in this function
-    this.add_task_list("Minh",2,3,4)
-    this.add_task_list(5,6,7,8)
-    this.update_task_after_edit({
-      task_id: uuid.v4(),
-      task_name: "new",
-      task_note: "new",
-      task_date: "new",
-      task_time: "new",
-    })
-    this.add_task_list(5,6,7,8)
+    this.add_task_list("test_name_1","test_note_1","date_1","time_1")
+    this.add_task_list("test_name_2","test_note_2","date_2","time_2")
+    this.add_task_list("test_name_3","test_note_3","date_3","time_3")
   }
 
   add_task_list = (new_task_name,new_task_note,new_task_date,new_task_time) => {
-    let new_task_list = [...this.state.task_list]
     let new_single_task = {
       task_id: uuid.v4(),
-      task_name: new_task_name,
-      task_note: new_task_note,
-      task_date: new_task_date,
-      task_time: new_task_time,
+      task_name: new_task_name.toString(),
+      task_note: new_task_note.toString(),
+      task_date: new_task_date.toString(),
+      task_time: new_task_time.toString(),
     }
-    new_task_list.push(new_single_task)
-    this.setState(this.state.task_list=new_task_list)
+    this.task_list.push(new_single_task)
+    this.setState({task_list:this.task_list})
   }
 
   clear_task_list = () => {
-    this.setState(this.state.task_list = [])
+    this.task_list = []
+    this.setState({task_list:this.task_list})
   }
 
   set_search_text = ( input ) => {
-    this.setState({search_text:input})
+    this.search_text = input
+    this.setState({search_text:this.search_text})
   }
 
   change_to_task_view = () => {
+    this.update_task_after_edit()
     this.setState({screen:"task_view"})
   }
 
   change_to_task_edit = (id_) => {
     if (id_ === "new"){
-      this.setState(this.state.task_to_edit =  {
+      this.task_to_edit =  {
         task_id:uuid.v4(),
         task_name: "",
         task_note: "",
         task_date: "",
         task_time: "",
-      })
+      }
+      this.setState({task_to_edit:this.task_to_edit})
     }
     else{
-      let task_ = {}
-      for (let i = 0; i < this.state.task_list.length; i++) {
-        if (id_ === this.state.task_list[i].task_id) {
-          task_ = {...this.state.task_list[i]}
-          return
+      for (let i = 0; i < this.task_list.length; i++) {
+        if (id_ == this.task_list[i].task_id) {
+          this.task_to_edit = {...this.task_list[i]}
+          break
         }
       }
-      this.setState(this.state.task_to_edit = task_)
+      this.setState({task_to_edit:this.task_to_edit})
     }
-    console.log(this.state.task_to_edit)
     this.setState({screen:"task_edit"})
   }
 
-  update_task_after_edit = (Task) =>{
-    for(let i = 0; i < this.state.task_list.length;i++){
-      if (Task.task_id === this.state.task_list[i].task_id){
-        this.setState(this.state.task_list[i] = Task)
+  update_task_after_edit = () =>{
+    if (this.task_to_edit.task_name == "" &&
+    this.task_to_edit.task_note == "" &&
+    this.task_to_edit.task_date == "" &&
+    this.task_to_edit.task_time == "" ){return}
+    for(let i = 0; i < this.task_list.length;i++){
+      if (this.task_to_edit.task_id === this.task_list[i].task_id){
+        this.task_list[i] = this.task_to_edit
+        this.setState({task_list:this.task_list})
         return
       }
     }
-    this.add_task_list(Task.task_name,Task.task_note,Task.task_date,Task.task_time)
+    this.add_task_list(this.task_to_edit.task_name,this.task_to_edit.task_note,this.task_to_edit.task_date,this.task_to_edit.task_time)
     return
   }
   
@@ -108,15 +111,60 @@ export default class Task_screen extends React.Component{
       return
     }
     return (
-      Task_component(item.task_name,item.task_note,item.task_date,item.task_time)
+      <Pressable onPress={() => this.change_to_task_edit(item.task_id)}>
+        {Task_component(item.task_name,item.task_note,item.task_date,item.task_time)}
+      </Pressable>
     )
   }
 
   render() {
-    let reverse_task_list = this.state.task_list.reverse()
+    let reverse_task_list = [...this.task_list].reverse()
     if (this.state.screen === "task_edit"){
       return (
         <View style={styles.background}>
+          <TextInput
+            style={styles.inputtemp}
+            onChangeText={(input) => {
+              this.task_to_edit.task_name = input
+              this.setState({task_to_edit:this.task_to_edit})
+            }
+            }
+            value={this.state.task_to_edit.task_name}
+          />
+          <TextInput
+            style={styles.inputtemp}
+            onChangeText={(input) => {
+              this.task_to_edit.task_note = input
+              this.setState({task_to_edit:this.task_to_edit})
+            }
+            }
+            value={this.state.task_to_edit.task_note}
+          />
+          <TextInput
+            style={styles.inputtemp}
+            onChangeText={(input) => {
+              this.task_to_edit.task_date = input
+              this.setState({task_to_edit:this.task_to_edit})
+            }
+            }
+            value={this.state.task_to_edit.task_date}
+          />
+          <TextInput
+            style={styles.inputtemp}
+            onChangeText={(input) => {
+              this.task_to_edit.task_time = input
+              this.setState({task_to_edit:this.task_to_edit})
+            }
+            }
+            value={this.state.task_to_edit.task_time}
+          />
+          <Pressable onPress={() => this.change_to_task_view()}>
+            <View style={styles.addtaskbutton}>
+              <Text style={{ textAlign: 'center' }}>
+                Done
+              </Text>
+            </View>
+          </Pressable>
         </View>
       )
     }

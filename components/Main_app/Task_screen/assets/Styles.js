@@ -94,5 +94,11 @@ export default styles = StyleSheet.create({
     justifyContent: "center",
     borderColor:"#FFC3C3",
     borderWidth:3,
-  }
+  },
+  inputtemp: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+  },
 })
