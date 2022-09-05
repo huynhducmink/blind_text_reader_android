@@ -70,7 +70,7 @@ export default styles = StyleSheet.create({
     flex: 8,
     flexDirection: 'column',
     backgroundColor: '#F0F0F0',
-    alignItems:'center',
+    alignItems:'stretch',
     justifyContent:"flex-start"
   },
   intaskcontainer: {
@@ -82,5 +82,17 @@ export default styles = StyleSheet.create({
     backgroundColor: "white",
     alignItems:"center",
     justifyContent:"center"
+  },
+  addtaskbutton: {
+    position: "absolute",
+    bottom: 30,
+    right: 30,
+    height: 90,
+    width: 90,
+    borderRadius: 100,
+    backgroundColor: "white",
+    justifyContent: "center",
+    borderColor:"red",
+    borderWidth:3,
   }
 })
