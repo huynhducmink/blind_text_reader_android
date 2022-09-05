@@ -75,9 +75,9 @@ export default styles = StyleSheet.create({
   },
   intaskcontainer: {
     flexDirection:"row",
-    margin: 10,
+    margin: 5,
     width: "90%",
-    height: 80,
+    height: 90,
     borderRadius:20,
     backgroundColor: "white",
     alignItems:"center",
@@ -92,7 +92,7 @@ export default styles = StyleSheet.create({
     borderRadius: 100,
     backgroundColor: "white",
     justifyContent: "center",
-    borderColor:"red",
+    borderColor:"#FFC3C3",
     borderWidth:3,
   }
 })
