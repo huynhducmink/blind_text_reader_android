@@ -13,7 +13,9 @@ export default styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#FFC3C3',
     justifyContent: 'space-around',
-    alignItems: "center"
+    alignItems: "center",
+    borderBottomRightRadius:25,
+    borderBottomLeftRadius:25,
   },
   taskbar_icon: {
     width: "8%",
@@ -67,7 +69,7 @@ export default styles = StyleSheet.create({
     margin:"20%"
   },
   taskcontainer: {
-    flex: 8,
+    flex: 9,
     flexDirection: 'column',
     backgroundColor: '#F0F0F0',
     alignItems:'stretch',
@@ -77,7 +79,7 @@ export default styles = StyleSheet.create({
     flexDirection:"row",
     margin: 5,
     width: "90%",
-    height: 90,
+    height: 80,
     borderRadius:20,
     backgroundColor: "white",
     alignItems:"center",

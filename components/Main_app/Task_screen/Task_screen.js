@@ -37,6 +37,10 @@ export default class Task_screen extends React.Component{
     this.add_task_list("test_name_1","test_note_1","date_1","time_1")
     this.add_task_list("test_name_2","test_note_2","date_2","time_2")
     this.add_task_list("test_name_3","test_note_3","date_3","time_3")
+    this.add_task_list("test_name_4","test_note_4","date_4","time_4")
+    this.add_task_list("test_name_5","test_note_5","date_5","time_5")
+    this.add_task_list("test_name_6","test_note_6","date_6","time_6")
+    this.add_task_list("test_name_7","test_note_7","date_7","time_7")
   }
 
   add_task_list = (new_task_name,new_task_note,new_task_date,new_task_time) => {

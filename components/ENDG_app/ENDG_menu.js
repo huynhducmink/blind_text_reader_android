@@ -2,6 +2,7 @@ import { resizeMode } from "deprecated-react-native-prop-types/DeprecatedImagePr
 import React from "react";
 import { Text, View, StatusBar, StyleSheet, Image, TouchableWithoutFeedback, BackHandler} from "react-native"
 import { ENDG_image } from "./ENDG_image";
+import RNExitApp from 'react-native-exit-app';
 
 export default class ENDG_menu extends React.Component{
   constructor(props){
@@ -26,7 +27,8 @@ export default class ENDG_menu extends React.Component{
               </Text>
             </View>
           </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={() => BackHandler.exitApp()}>
+          {/* <TouchableWithoutFeedback onPress={() => BackHandler.exitApp()}> */}
+          <TouchableWithoutFeedback onPress={() => RNExitApp.exitApp()}>
             <View style={styles.button}>
               <Text style={styles.button_text} adjustsFontSizeToFit>
                 Thoát
