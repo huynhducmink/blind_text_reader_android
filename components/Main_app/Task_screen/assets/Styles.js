@@ -97,10 +97,21 @@ export default styles = StyleSheet.create({
     borderColor:"#FFC3C3",
     borderWidth:3,
   },
-  inputtemp: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
+  addtasktopbar: {
+    flex:1,
+    flexDirection:"row",
+    alignItems: "center",
+  },
+  donetaskbutton: {
+    position: "absolute",
+    bottom: 30,
+    right: 30,
+    height: 90,
+    width: 90,
+    borderRadius: 100,
+    backgroundColor: "white",
+    justifyContent: "center",
+    borderColor:"#FFC3C3",
+    borderWidth:3,
   },
 })
