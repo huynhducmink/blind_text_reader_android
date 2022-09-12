@@ -11,11 +11,12 @@ export default styles = StyleSheet.create({
   topcontainer: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#FFC3C3',
+    // backgroundColor: '#FFC3C3',
+    backgroundColor: '#99D28B',
     justifyContent: 'space-around',
     alignItems: "center",
-    borderBottomRightRadius:25,
-    borderBottomLeftRadius:25,
+    borderTopRightRadius:25,
+    borderTopLeftRadius:25,
   },
   taskbar_icon: {
     width: "8%",
@@ -94,7 +95,8 @@ export default styles = StyleSheet.create({
     borderRadius: 100,
     backgroundColor: "white",
     justifyContent: "center",
-    borderColor:"#FFC3C3",
+    //borderColor:"#FFC3C3",
+    borderColor:"#99D28B",
     borderWidth:3,
   },
   addtasktopbar: {

@@ -20,8 +20,7 @@ export default class Task_screen extends React.Component{
       search_text:"",
       task_list:[],
       task_to_edit:{},
-      screen:"task_edit",
-      current_task_date: new Date(),
+      screen:"task_view",
       open_date_picker: false,
     }
     this.add_task_list = this.add_task_list.bind()
@@ -40,28 +39,28 @@ export default class Task_screen extends React.Component{
   task_to_edit = {
     task_id:"",
     task_note:"",
-    task_date:"",
-    task_time:""
+    task_date: null,
   }
   search_text = ""
 
   componentDidMount = () => {
     //load data from database in this function
-    this.add_task_list("test_name_1\ntest_note_1","date_1","time_1")
-    this.add_task_list("test_name_2\ntest_note_2","date_2","time_2")
-    this.add_task_list("test_name_3\ntest_note_3","date_3","time_3")
-    this.add_task_list("test_name_4\ntest_note_4","date_4","time_4")
-    this.add_task_list("test_name_5\ntest_note_5","date_5","time_5")
-    this.add_task_list("test_name_6\ntest_note_6","date_6","time_6")
-    this.add_task_list("test_name_7\ntest_note_7","date_7","time_7")
+    this.add_task_list("test_name_1\ntest_note_1",new Date())
+    this.add_task_list("test_name_2\ntest_note_2",new Date())
+    this.add_task_list("test_name_3\ntest_note_3",new Date())
+    this.add_task_list("test_name_4\ntest_note_4",new Date())
+    this.add_task_list("test_name_5\ntest_note_5",new Date())
+    this.add_task_list("test_name_6\ntest_note_6",new Date())
+    this.add_task_list("test_name_7\ntest_note_7",new Date())
+    this.add_task_list("test_name_8\ntest_note_8",new Date())
+    this.add_task_list("test_name_9\ntest_note_9",new Date())
   }
 
-  add_task_list = (new_task_note,new_task_date,new_task_time) => {
+  add_task_list = (new_task_note,new_task_date) => {
     let new_single_task = {
       task_id: uuid.v4(),
-      task_note: new_task_note.toString(),
-      task_date: new_task_date.toString(),
-      task_time: new_task_time.toString(),
+      task_note: new_task_note,
+      task_date: new_task_date,
     }
     this.task_list.push(new_single_task)
     this.setState({task_list:this.task_list})
@@ -91,8 +90,7 @@ export default class Task_screen extends React.Component{
       this.task_to_edit =  {
         task_id:uuid.v4(),
         task_note: "",
-        task_date: "",
-        task_time: "",
+        task_date: null,
       }
       this.setState({task_to_edit:this.task_to_edit})
     }
@@ -109,9 +107,7 @@ export default class Task_screen extends React.Component{
   }
 
   update_task_after_edit = () =>{
-    if ( this.task_to_edit.task_note == "" &&
-    this.task_to_edit.task_date == "" &&
-    this.task_to_edit.task_time == "" ){return}
+    if ( this.task_to_edit.task_note == ""){return}
     for(let i = 0; i < this.task_list.length;i++){
       if (this.task_to_edit.task_id === this.task_list[i].task_id){
         this.task_list[i] = this.task_to_edit
@@ -119,12 +115,13 @@ export default class Task_screen extends React.Component{
         return
       }
     }
-    this.add_task_list(this.task_to_edit.task_note,this.task_to_edit.task_date,this.task_to_edit.task_time)
+    this.add_task_list(this.task_to_edit.task_note,this.task_to_edit.task_date)
     return
   }
 
   update_current_task_date = (Date) => {
-    this.setState({current_task_date:Date})
+    this.task_to_edit.task_date = Date
+    this.setState({task_to_edit:this.task_to_edit})
   }
 
   update_open_date_picker = (boolinput) => {
@@ -137,7 +134,7 @@ export default class Task_screen extends React.Component{
     }
     return (
       <Pressable onPress={() => this.change_to_task_edit(item.task_id)}>
-        {Task_component(item.task_note,item.task_date,item.task_time)}
+        {Task_component(item.task_note,item.task_date)}
       </Pressable>
     )
   }
@@ -150,7 +147,7 @@ export default class Task_screen extends React.Component{
           <View style={styles.background}>
             <View style={styles.addtasktopbar}>
               <Pressable onPress={() => this.return_to_task_view()} style={{ flexDirection: "row" }}>
-                <Image source={require("./assets/images/arrow-left.png")} />
+                <Image source={require("./assets/images/arrow-left.png")}/>
                 <Text style={{ fontSize: 20 }}>
                   Return
                 </Text>
@@ -159,7 +156,7 @@ export default class Task_screen extends React.Component{
             <View style={{ flex: 7, alignItems: "stretch" }}>
               <TextInput
                 multiline
-                style={{ backgroundColor: "pink", textAlignVertical: "top", fontSize: 20, flex: 1 }}
+                style={{ backgroundColor: "#99D28B", textAlignVertical: "top", fontSize: 20, flex: 1 }}
                 onChangeText={(input) => {
                   this.task_to_edit.task_note = input
                   this.setState({ task_to_edit: this.task_to_edit })
@@ -171,10 +168,14 @@ export default class Task_screen extends React.Component{
             <View style={{ flex: 4, flexDirection: "row" }}>
               <View style={{ flex: 4 }}>
                 <Pressable onPress={() => this.update_open_date_picker(true)}>
-                  <View style={{ height: 50, backgroundColor: "pink", margin: 10, borderRadius: 10, justifyContent:"center" }}>
+                  <View style={{ height: 50, backgroundColor: "#99D28B", margin: 10, borderRadius: 10, justifyContent:"flex-start", flexDirection:"row", alignItems:"center" }}>
+                    <Image source={require("./assets/images/clock.png")} style={{margin:20}}  />
                     <Text style={{fontSize:20, fontWeight:"bold", textAlignVertical:"center"}}>
-                      {this.state.current_task_date.getHours()+":"+
-                      this.state.current_task_date.getMinutes()
+                      { this.task_to_edit.task_date == null ? "Add reminder" :
+                      this.state.task_to_edit.task_date.getDate()+"/"+
+                      String(this.state.task_to_edit.task_date.getMonth()+1)+"   "+
+                      this.state.task_to_edit.task_date.getHours()+":"+
+                      this.state.task_to_edit.task_date.getMinutes() 
                       }
                     </Text>
                   </View>
@@ -183,7 +184,7 @@ export default class Task_screen extends React.Component{
               <DatePicker
                 modal
                 open={this.state.open_date_picker}
-                date={this.state.current_task_date}
+                date={this.state.task_to_edit.task_date == null ? new Date() : this.state.task_to_edit.task_date}
                 onConfirm={(date) => {
                   this.update_open_date_picker(false)
                   this.update_current_task_date(date)
@@ -209,12 +210,6 @@ export default class Task_screen extends React.Component{
       return (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <View style={styles.background}>
-            <View style={styles.topcontainer}>
-              <Image source={require("./assets/images/menu.png")} style={styles.taskbar_icon} />
-              <Image source={require("./assets/images/note.png")} style={styles.taskbar_icon} />
-              <Image source={require("./assets/images/tick_2.png")} style={styles.taskbar_icon} />
-              <Image source={require("./assets/images/cal.png")} style={styles.taskbar_icon} />
-            </View>
             <View style={styles.searchcontainer}>
               <View style={styles.searchbar}>
                 <View style={styles.searchinputcontainer}>
@@ -248,6 +243,12 @@ export default class Task_screen extends React.Component{
                 </View>
               </Pressable>
             </View>
+            <View style={styles.topcontainer}>
+              <Image source={require("./assets/images/menu.png")} style={styles.taskbar_icon} />
+              <Image source={require("./assets/images/note.png")} style={styles.taskbar_icon} />
+              <Image source={require("./assets/images/tick_2.png")} style={styles.taskbar_icon} />
+              <Image source={require("./assets/images/cal.png")} style={styles.taskbar_icon} />
+            </View>
           </View>
         </TouchableWithoutFeedback>
       )
@@ -255,24 +256,34 @@ export default class Task_screen extends React.Component{
   }
 }
 
-const Task_component = (tasknote, time, date) => {
+const Task_component = (tasknote, taskdate) => {
+  let tasktime = ""
+  let taskday = ""
+  if (taskdate===null){
+  }
+  else{
+    tasktime = taskdate.getHours() + ":" + taskdate.getMinutes()
+    taskday = taskdate.getDate() + "/" + String(taskdate.getMonth()+1)
+  }
+  let tasktitle = tasknote.split("\n")[0]
+  let taskbody = tasknote.split("\n")[1]
   return (
     <View style={styles.intaskcontainer}>
       <Image source={require("./assets/images/untick.png")} style={{ flex: 1, resizeMode: "contain" }} />
       <View style={{ flex: 3, height: "100%", justifyContent: "space-around", paddingLeft: 3 }}>
         <Text style={{ height: "40%", fontSize: 25, color: "black", textAlignVertical: "center", fontFamily: "Lexend Deca" }}>
-          {tasknote.split("\n",2)[0]}
+          {tasktitle}
         </Text>
         <Text style={{ height: "35%", fontSize: 15, color: "gray", textAlignVertical: "center" }}>
-          {tasknote.split("\n",2)[1]}
+          {taskbody}
         </Text>
       </View>
       <View style={{ flex: 1, padding: 10 }}>
         <Text style={{ height: "35%", fontSize: 15, color: "black", textAlign: "center" }}>
-          {time}
+          {tasktime}
         </Text>
         <Text style={{ height: "35%", fontSize: 15, color: "black", textAlign: "center" }}>
-          {date}
+          {taskday}
         </Text>
       </View>
     </View>
