@@ -24,6 +24,7 @@ export default class Task_screen extends React.Component{
       open_date_picker: false,
     }
     this.add_task_list = this.add_task_list.bind()
+    this.add_task_list_date = this.add_task_list_date.bind()
     this.clear_task_list = this.clear_task_list.bind()
     this.set_search_text = this.set_search_text.bind()
     this.change_to_task_view = this.change_to_task_view.bind()
@@ -39,28 +40,50 @@ export default class Task_screen extends React.Component{
   task_to_edit = {
     task_id:"",
     task_note:"",
-    task_date: null,
+    task_min: null,
+    task_hour: null,
+    task_day: null,
+    task_month: null,
+    task_year: null,
   }
   search_text = ""
 
   componentDidMount = () => {
     //load data from database in this function
-    this.add_task_list("test_name_1\ntest_note_1",new Date())
-    this.add_task_list("test_name_2\ntest_note_2",new Date())
-    this.add_task_list("test_name_3\ntest_note_3",new Date())
-    this.add_task_list("test_name_4\ntest_note_4",new Date())
-    this.add_task_list("test_name_5\ntest_note_5",new Date())
-    this.add_task_list("test_name_6\ntest_note_6",new Date())
-    this.add_task_list("test_name_7\ntest_note_7",new Date())
-    this.add_task_list("test_name_8\ntest_note_8",new Date())
-    this.add_task_list("test_name_9\ntest_note_9",new Date())
+    this.add_task_list_date("test_name_1\ntest_note_1",new Date())
+    this.add_task_list_date("test_name_2\ntest_note_2",new Date())
+    this.add_task_list_date("test_name_3\ntest_note_3",new Date())
+    this.add_task_list_date("test_name_4\ntest_note_4",new Date())
+    this.add_task_list_date("test_name_5\ntest_note_5",new Date())
+    this.add_task_list_date("test_name_6\ntest_note_6",new Date())
+    this.add_task_list_date("test_name_7\ntest_note_7",new Date())
+    this.add_task_list_date("test_name_8\ntest_note_8",new Date())
+    this.add_task_list_date("test_name_9\ntest_note_9",new Date())
   }
 
-  add_task_list = (new_task_note,new_task_date) => {
+  add_task_list = (note,min,hour,day,month,year) => {
     let new_single_task = {
       task_id: uuid.v4(),
-      task_note: new_task_note,
-      task_date: new_task_date,
+      task_note: note,
+      task_min: min,
+      task_hour: hour,
+      task_day: day,
+      task_month: month,
+      task_year: year,
+    }
+    this.task_list.push(new_single_task)
+    this.setState({task_list:this.task_list})
+  }
+
+  add_task_list_date = (note,date) => {
+    let new_single_task = {
+      task_id: uuid.v4(),
+      task_note: note,
+      task_min: date.getMinutes(),
+      task_hour: date.getHours(),
+      task_day: date.getDate(),
+      task_month: date.getMonth()+1,
+      task_year: date.getFullYear(),
     }
     this.task_list.push(new_single_task)
     this.setState({task_list:this.task_list})
@@ -90,7 +113,11 @@ export default class Task_screen extends React.Component{
       this.task_to_edit =  {
         task_id:uuid.v4(),
         task_note: "",
-        task_date: null,
+        task_min: null,
+        task_hour: null,
+        task_day: null,
+        task_month: null,
+        task_year: null,
       }
       this.setState({task_to_edit:this.task_to_edit})
     }
@@ -115,12 +142,16 @@ export default class Task_screen extends React.Component{
         return
       }
     }
-    this.add_task_list(this.task_to_edit.task_note,this.task_to_edit.task_date)
+    this.add_task_list(this.task_to_edit.task_note,this.task_to_edit.task_min,this.task_to_edit.task_hour,this.task_to_edit.task_day,this.task_to_edit.task_month,this.task_to_edit.task_year)
     return
   }
 
   update_current_task_date = (Date) => {
-    this.task_to_edit.task_date = Date
+    this.task_to_edit.task_min = Date.getMinutes()
+    this.task_to_edit.task_hour = Date.getHours()
+    this.task_to_edit.task_day = Date.getDate()
+    this.task_to_edit.task_month = Date.getMonth()+1
+    this.task_to_edit.task_year = Date.getFullYear()
     this.setState({task_to_edit:this.task_to_edit})
   }
 
@@ -134,7 +165,7 @@ export default class Task_screen extends React.Component{
     }
     return (
       <Pressable onPress={() => this.change_to_task_edit(item.task_id)}>
-        {Task_component(item.task_note,item.task_date)}
+        {Task_component(item.task_note,item.task_min,item.task_hour,item.task_day,item.task_month,item.task_year)}
       </Pressable>
     )
   }
@@ -171,11 +202,11 @@ export default class Task_screen extends React.Component{
                   <View style={{ height: 50, backgroundColor: "#99D28B", margin: 10, borderRadius: 10, justifyContent:"flex-start", flexDirection:"row", alignItems:"center" }}>
                     <Image source={require("./assets/images/clock.png")} style={{margin:20}}  />
                     <Text style={{fontSize:20, fontWeight:"bold", textAlignVertical:"center"}}>
-                      { this.task_to_edit.task_date == null ? "Add reminder" :
-                      this.state.task_to_edit.task_date.getDate()+"/"+
-                      String(this.state.task_to_edit.task_date.getMonth()+1)+"   "+
-                      this.state.task_to_edit.task_date.getHours()+":"+
-                      this.state.task_to_edit.task_date.getMinutes() 
+                      { this.task_to_edit.task_min == null ? "Add reminder" :
+                      this.state.task_to_edit.task_day+"/"+
+                      this.state.task_to_edit.task_month+"   "+
+                      this.state.task_to_edit.task_hour+":"+
+                      this.state.task_to_edit.task_min 
                       }
                     </Text>
                   </View>
@@ -256,17 +287,9 @@ export default class Task_screen extends React.Component{
   }
 }
 
-const Task_component = (tasknote, taskdate) => {
-  let tasktime = ""
-  let taskday = ""
-  if (taskdate===null){
-  }
-  else{
-    tasktime = taskdate.getHours() + ":" + taskdate.getMinutes()
-    taskday = taskdate.getDate() + "/" + String(taskdate.getMonth()+1)
-  }
-  let tasktitle = tasknote.split("\n")[0]
-  let taskbody = tasknote.split("\n")[1]
+const Task_component = (note,min,hour,day,month,year) => {
+  let tasktitle = note.split("\n")[0]
+  let taskbody = note.split("\n")[1]
   return (
     <View style={styles.intaskcontainer}>
       <Image source={require("./assets/images/untick.png")} style={{ flex: 1, resizeMode: "contain" }} />
@@ -280,10 +303,10 @@ const Task_component = (tasknote, taskdate) => {
       </View>
       <View style={{ flex: 1, padding: 10 }}>
         <Text style={{ height: "35%", fontSize: 15, color: "black", textAlign: "center" }}>
-          {tasktime}
+          {hour+":"+min}
         </Text>
         <Text style={{ height: "35%", fontSize: 15, color: "black", textAlign: "center" }}>
-          {taskday}
+          {day+"/"+month}
         </Text>
       </View>
     </View>
