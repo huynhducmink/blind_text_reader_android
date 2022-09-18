@@ -12,6 +12,7 @@ import {
 import styles from "./assets/Styles"
 import uuid from 'react-native-uuid';
 import DatePicker from "react-native-date-picker";
+import DB from "../Database/Task_database";
 
 export default class Task_screen extends React.Component{
   constructor(props){
@@ -38,7 +39,7 @@ export default class Task_screen extends React.Component{
 
   task_list = []
   task_to_edit = {
-    task_id:"",
+    task_id: "",
     task_note:"",
     task_min: null,
     task_hour: null,
@@ -47,21 +48,31 @@ export default class Task_screen extends React.Component{
     task_year: null,
   }
   search_text = ""
+  db = new DB
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     //load data from database in this function
-    this.add_task_list_date("test_name_1\ntest_note_1",new Date())
-    this.add_task_list_date("test_name_2\ntest_note_2",new Date())
-    this.add_task_list_date("test_name_3\ntest_note_3",new Date())
-    this.add_task_list_date("test_name_4\ntest_note_4",new Date())
-    this.add_task_list_date("test_name_5\ntest_note_5",new Date())
-    this.add_task_list_date("test_name_6\ntest_note_6",new Date())
-    this.add_task_list_date("test_name_7\ntest_note_7",new Date())
-    this.add_task_list_date("test_name_8\ntest_note_8",new Date())
-    this.add_task_list_date("test_name_9\ntest_note_9",new Date())
+    try {
+      let init_task = [{ task_id: uuid.v4().toString(), task_note: "Hello\nworld", task_min: 1, task_hour: 1, task_day: 1, task_month: 1, task_year: 2022 }]
+      let task_db = await this.db.getDBconnection()
+      // await this.db.deleteTasklist(task_db)
+      await this.db.createTable(task_db)
+      this.task_list = await this.db.getTasklist(task_db)
+      if (this.task_list.length){
+        this.setState({task_list:this.task_list})
+      }
+      else{
+        await this.db.saveToTasklist(task_db,init_task)
+        this.task_list = init_task
+        this.setState({task_list:init_task})
+      }
+    }
+    catch(error){
+      console.error(error)
+    }
   }
 
-  add_task_list = (note,min,hour,day,month,year) => {
+  add_task_list = async (note,min,hour,day,month,year) => {
     let new_single_task = {
       task_id: uuid.v4(),
       task_note: note,
@@ -72,10 +83,13 @@ export default class Task_screen extends React.Component{
       task_year: year,
     }
     this.task_list.push(new_single_task)
+    let task_db = await this.db.getDBconnection()
+    await this.db.saveToTasklist(task_db,this.task_list)
+    this.setState({task_list:this.db.getTasklist(task_db)})
     this.setState({task_list:this.task_list})
   }
 
-  add_task_list_date = (note,date) => {
+  add_task_list_date = async (note,date) => {
     let new_single_task = {
       task_id: uuid.v4(),
       task_note: note,
@@ -86,6 +100,9 @@ export default class Task_screen extends React.Component{
       task_year: date.getFullYear(),
     }
     this.task_list.push(new_single_task)
+    let task_db = await this.db.getDBconnection()
+    await this.db.saveToTasklist(task_db,this.task_list)
+    this.setState({task_list:this.db.getTasklist(task_db)})
     this.setState({task_list:this.task_list})
   }
 
@@ -133,12 +150,15 @@ export default class Task_screen extends React.Component{
     this.setState({screen:"task_edit"})
   }
 
-  update_task_after_edit = () =>{
+  update_task_after_edit = async () =>{
     if ( this.task_to_edit.task_note == ""){return}
     for(let i = 0; i < this.task_list.length;i++){
       if (this.task_to_edit.task_id === this.task_list[i].task_id){
         this.task_list[i] = this.task_to_edit
-        this.setState({task_list:this.task_list})
+        // this.setState({task_list:this.task_list})
+        let task_db = await this.db.getDBconnection()
+        await this.db.saveToTasklist(task_db,this.task_list)
+        this.setState({task_list:this.db.getTasklist(task_db)})
         return
       }
     }
