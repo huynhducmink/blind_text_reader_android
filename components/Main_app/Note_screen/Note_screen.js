@@ -257,12 +257,20 @@ export default class Note_screen extends React.Component{
               </Pressable>
             </View>
             <View style={styles.topcontainer}>
-              <Image source={require("./assets/images/menu.png")} style={styles.notebar_icon} />
-              <Image source={require("./assets/images/note.png")} style={styles.notebar_icon} />
-              <Pressable onPress={() => this.props.change_to_task_screen()}>
-                <Image source={require("./assets/images/tick_2.png")} style={styles.notebar_icon} />
+              <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+                <Image source={require("./assets/images/menu.png")} style={styles.notebar_icon} />
+              </View>
+              <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+                <Image source={require("./assets/images/note.png")} style={styles.notebar_icon} />
+              </View>
+              <Pressable onPress={() => this.props.change_to_task_screen()} style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+                <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+                  <Image source={require("./assets/images/tick_2.png")} style={styles.notebar_icon} />
+                </View>
               </Pressable>
-              <Image source={require("./assets/images/cal.png")} style={styles.notebar_icon} />
+              <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+                <Image source={require("./assets/images/cal.png")} style={styles.notebar_icon} />
+              </View>
             </View>
           </View>
         </TouchableWithoutFeedback>
