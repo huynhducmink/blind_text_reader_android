@@ -12,7 +12,7 @@ import {
 import styles from "./assets/Styles"
 import uuid from 'react-native-uuid';
 import DatePicker from "react-native-date-picker";
-import DB from "../Database/Task_database";
+import taskDB from "../Database/Task_database";
 import { placeholder } from "deprecated-react-native-prop-types/DeprecatedTextInputPropTypes";
 
 export default class Task_screen extends React.Component{
@@ -50,21 +50,21 @@ export default class Task_screen extends React.Component{
     task_year: null,
   }
   search_text = ""
-  db = new DB
+  db = new taskDB
 
   componentDidMount = async () => {
     //load data from database in this function
     try {
-      let init_task = [{ task_id: uuid.v4().toString(), task_title: "Hello", task_note: "world", task_min: null, task_hour: null, task_day: null, task_month: null, task_year: null }]
+      let init_task = [{ task_id: uuid.v4().toString(), task_title: "Hello task", task_note: "world", task_min: null, task_hour: null, task_day: null, task_month: null, task_year: null }]
       let task_db = await this.db.getDBconnection()
       // await this.db.deleteTasklist(task_db)
-      await this.db.createTable(task_db)
-      this.task_list = await this.db.getTasklist(task_db)
+      await this.db.createtable(task_db)
+      this.task_list = await this.db.gettasklist(task_db)
       if (this.task_list.length){
         this.setState({task_list:this.task_list})
       }
       else{
-        await this.db.saveToTasklist(task_db,init_task)
+        await this.db.savetotasklist(task_db,init_task)
         this.task_list = init_task
         this.setState({task_list:init_task})
       }
@@ -87,8 +87,8 @@ export default class Task_screen extends React.Component{
     }
     this.task_list.push(new_single_task)
     let task_db = await this.db.getDBconnection()
-    await this.db.saveToTasklist(task_db,this.task_list)
-    this.setState({task_list:this.db.getTasklist(task_db)})
+    await this.db.savetotasklist(task_db,this.task_list)
+    this.setState({task_list:this.db.gettasklist(task_db)})
     this.setState({task_list:this.task_list})
   }
 
@@ -105,8 +105,8 @@ export default class Task_screen extends React.Component{
     }
     this.task_list.push(new_single_task)
     let task_db = await this.db.getDBconnection()
-    await this.db.saveToTasklist(task_db,this.task_list)
-    this.setState({task_list:this.db.getTasklist(task_db)})
+    await this.db.savetotasklist(task_db,this.task_list)
+    this.setState({task_list:this.db.gettasklist(task_db)})
     this.setState({task_list:this.task_list})
   }
 
@@ -162,8 +162,8 @@ export default class Task_screen extends React.Component{
         this.task_list[i] = this.task_to_edit
         // this.setState({task_list:this.task_list})
         let task_db = await this.db.getDBconnection()
-        await this.db.saveToTasklist(task_db,this.task_list)
-        this.setState({task_list:this.db.getTasklist(task_db)})
+        await this.db.savetotasklist(task_db,this.task_list)
+        this.setState({task_list:this.db.gettasklist(task_db)})
         return
       }
     }
@@ -334,7 +334,9 @@ export default class Task_screen extends React.Component{
             </View>
             <View style={styles.topcontainer}>
               <Image source={require("./assets/images/menu.png")} style={styles.taskbar_icon} />
-              <Image source={require("./assets/images/note.png")} style={styles.taskbar_icon} />
+              <Pressable onPress={() => this.props.change_to_note_screen()}>
+                <Image source={require("./assets/images/note.png")} style={styles.taskbar_icon} />
+              </Pressable>
               <Image source={require("./assets/images/tick_2.png")} style={styles.taskbar_icon} />
               <Image source={require("./assets/images/cal.png")} style={styles.taskbar_icon} />
             </View>

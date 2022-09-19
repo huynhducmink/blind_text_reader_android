@@ -1,7 +1,7 @@
 import React from "react";
 import { enablePromise, openDatabase, SQLiteDatabase } from "react-native-sqlite-storage";
 
-export default class DB extends React.Component{
+export default class taskDB extends React.Component{
   constructor(props){
     super(props);
     enablePromise(true);
@@ -11,7 +11,7 @@ export default class DB extends React.Component{
     return openDatabase({name:'taskdb.db',location:'default'});
   }
 
-  createTable = async (db) => {
+  createtable = async (db) => {
     let query = `CREATE TABLE IF NOT EXISTS task_table (
        task_id TEXT ,
        task_title TEXT , 
@@ -28,7 +28,7 @@ export default class DB extends React.Component{
     await db.executeSql(query)
   }
 
-  getTasklist = async (db) => {
+  gettasklist = async (db) => {
     try {
       let task_list = []
       results = await db.executeSql(`SELECT * FROM task_table`)
@@ -44,17 +44,17 @@ export default class DB extends React.Component{
     }
   }
 
-  saveToTasklist = async (db, task_list) => {
+  savetotasklist = async (db, task_list) => {
     let query = `INSERT OR REPLACE INTO task_table(task_id, task_title, task_note, task_min, task_hour, task_day, task_month, task_year) VALUES` + task_list.map(i => `('${i.task_id}','${i.task_title}','${i.task_note}',${i.task_min},${i.task_hour},${i.task_day},${i.task_month},${i.task_year})`).join(',')
     await db.executeSql(query)
   }
 
-  deleteTask = async (db,id) => {
+  deletetask = async (db,id) => {
     let query = `DELETE from task_table where task_id = ${id}`
     await db.executeSql(query)
   }
 
-  deleteTasklist = async (db) => {
+  deletetasklist = async (db) => {
     let query = `drop table task_table`
     await db.executeSql(query)
   }
