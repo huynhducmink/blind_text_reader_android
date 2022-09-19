@@ -14,6 +14,7 @@ export default class DB extends React.Component{
   createTable = async (db) => {
     let query = `CREATE TABLE IF NOT EXISTS task_table (
        task_id TEXT ,
+       task_title TEXT , 
        task_note TEXT ,
        task_min INTEGER ,
        task_hour INTEGER ,
@@ -44,7 +45,7 @@ export default class DB extends React.Component{
   }
 
   saveToTasklist = async (db, task_list) => {
-    let query = `INSERT OR REPLACE INTO task_table(task_id, task_note, task_min, task_hour, task_day, task_month, task_year) VALUES` + task_list.map(i => `('${i.task_id}','${i.task_note}',${i.task_min},${i.task_hour},${i.task_day},${i.task_month},${i.task_year})`).join(',')
+    let query = `INSERT OR REPLACE INTO task_table(task_id, task_title, task_note, task_min, task_hour, task_day, task_month, task_year) VALUES` + task_list.map(i => `('${i.task_id}','${i.task_title}','${i.task_note}',${i.task_min},${i.task_hour},${i.task_day},${i.task_month},${i.task_year})`).join(',')
     await db.executeSql(query)
   }
 

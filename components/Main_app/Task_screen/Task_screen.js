@@ -13,6 +13,7 @@ import styles from "./assets/Styles"
 import uuid from 'react-native-uuid';
 import DatePicker from "react-native-date-picker";
 import DB from "../Database/Task_database";
+import { placeholder } from "deprecated-react-native-prop-types/DeprecatedTextInputPropTypes";
 
 export default class Task_screen extends React.Component{
   constructor(props){
@@ -40,6 +41,7 @@ export default class Task_screen extends React.Component{
   task_list = []
   task_to_edit = {
     task_id: "",
+    task_title: "",
     task_note:"",
     task_min: null,
     task_hour: null,
@@ -53,7 +55,7 @@ export default class Task_screen extends React.Component{
   componentDidMount = async () => {
     //load data from database in this function
     try {
-      let init_task = [{ task_id: uuid.v4().toString(), task_note: "Hello\nworld", task_min: 1, task_hour: 1, task_day: 1, task_month: 1, task_year: 2022 }]
+      let init_task = [{ task_id: uuid.v4().toString(), task_title: "Hello", task_note: "world", task_min: null, task_hour: null, task_day: null, task_month: null, task_year: null }]
       let task_db = await this.db.getDBconnection()
       // await this.db.deleteTasklist(task_db)
       await this.db.createTable(task_db)
@@ -72,9 +74,10 @@ export default class Task_screen extends React.Component{
     }
   }
 
-  add_task_list = async (note,min,hour,day,month,year) => {
+  add_task_list = async (title,note,min,hour,day,month,year) => {
     let new_single_task = {
       task_id: uuid.v4(),
+      task_title: title,
       task_note: note,
       task_min: min,
       task_hour: hour,
@@ -89,9 +92,10 @@ export default class Task_screen extends React.Component{
     this.setState({task_list:this.task_list})
   }
 
-  add_task_list_date = async (note,date) => {
+  add_task_list_date = async (title,note,date) => {
     let new_single_task = {
       task_id: uuid.v4(),
+      task_title: title,
       task_note: note,
       task_min: date.getMinutes(),
       task_hour: date.getHours(),
@@ -129,6 +133,7 @@ export default class Task_screen extends React.Component{
     if (id_ === "new"){
       this.task_to_edit =  {
         task_id:uuid.v4(),
+        task_title: "",
         task_note: "",
         task_min: null,
         task_hour: null,
@@ -162,7 +167,7 @@ export default class Task_screen extends React.Component{
         return
       }
     }
-    this.add_task_list(this.task_to_edit.task_note,this.task_to_edit.task_min,this.task_to_edit.task_hour,this.task_to_edit.task_day,this.task_to_edit.task_month,this.task_to_edit.task_year)
+    this.add_task_list(this.task_to_edit.task_title,this.task_to_edit.task_note,this.task_to_edit.task_min,this.task_to_edit.task_hour,this.task_to_edit.task_day,this.task_to_edit.task_month,this.task_to_edit.task_year)
     return
   }
 
@@ -180,12 +185,13 @@ export default class Task_screen extends React.Component{
   }
   
   render_task = ({item}) => {
-    if ( String(item.task_note).toLowerCase().search(String(this.state.search_text).toLowerCase()) == -1) {
+    if ( String(item.task_title).toLowerCase().search(String(this.state.search_text).toLowerCase()) == -1 &&
+    String(item.task_note).toLowerCase().search(String(this.state.search_text).toLowerCase()) == -1) {
       return
     }
     return (
       <Pressable onPress={() => this.change_to_task_edit(item.task_id)}>
-        {Task_component(item.task_note,item.task_min,item.task_hour,item.task_day,item.task_month,item.task_year)}
+        {Task_component(item.task_title,item.task_note,item.task_min,item.task_hour,item.task_day,item.task_month,item.task_year)}
       </Pressable>
     )
   }
@@ -206,13 +212,24 @@ export default class Task_screen extends React.Component{
             </View>
             <View style={{ flex: 7, alignItems: "stretch" }}>
               <TextInput
+                style={{ backgroundColor: "#99D28B", textAlignVertical: "center", fontSize: 40, flex: 1, marginBottom:10, borderRadius: 10 }}
+                onChangeText={(input) => {
+                  this.task_to_edit.task_title = input
+                  this.setState({ task_to_edit: this.task_to_edit })
+                }
+                }
+                placeholder="Task title"
+                value={this.state.task_to_edit.task_title}
+              />
+              <TextInput
                 multiline
-                style={{ backgroundColor: "#99D28B", textAlignVertical: "top", fontSize: 20, flex: 1 }}
+                style={{ backgroundColor: "#99D28B", textAlignVertical: "top", fontSize: 30, flex: 8, borderRadius: 10 }}
                 onChangeText={(input) => {
                   this.task_to_edit.task_note = input
                   this.setState({ task_to_edit: this.task_to_edit })
                 }
                 }
+                placeholder="Task note"
                 value={this.state.task_to_edit.task_note}
               />
             </View>
@@ -307,26 +324,25 @@ export default class Task_screen extends React.Component{
   }
 }
 
-const Task_component = (note,min,hour,day,month,year) => {
-  let tasktitle = note.split("\n")[0]
-  let taskbody = note.split("\n")[1]
+const Task_component = (title,note,min,hour,day,month,year) => {
+  let note_single_line = note.split("/n")[0]
   return (
     <View style={styles.intaskcontainer}>
       <Image source={require("./assets/images/untick.png")} style={{ flex: 1, resizeMode: "contain" }} />
       <View style={{ flex: 3, height: "100%", justifyContent: "space-around", paddingLeft: 3 }}>
         <Text style={{ height: "40%", fontSize: 25, color: "black", textAlignVertical: "center", fontFamily: "Lexend Deca" }}>
-          {tasktitle}
+          {title}
         </Text>
         <Text style={{ height: "35%", fontSize: 15, color: "gray", textAlignVertical: "center" }}>
-          {taskbody}
+          {note_single_line}
         </Text>
       </View>
       <View style={{ flex: 1, padding: 10 }}>
         <Text style={{ height: "35%", fontSize: 15, color: "black", textAlign: "center" }}>
-          {hour+":"+min}
+          {hour == null && min == null ? "" : hour+":"+min}
         </Text>
         <Text style={{ height: "35%", fontSize: 15, color: "black", textAlign: "center" }}>
-          {day+"/"+month}
+          {day == null && month == null ? "" : day+"/"+month}
         </Text>
       </View>
     </View>
