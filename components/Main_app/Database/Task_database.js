@@ -49,6 +49,11 @@ export default class DB extends React.Component{
     await db.executeSql(query)
   }
 
+  deleteTask = async (db,id) => {
+    let query = `DELETE from task_table where task_id = ${id}`
+    await db.executeSql(query)
+  }
+
   deleteTasklist = async (db) => {
     let query = `drop table task_table`
     await db.executeSql(query)

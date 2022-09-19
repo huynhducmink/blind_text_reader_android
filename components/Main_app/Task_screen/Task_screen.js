@@ -189,10 +189,31 @@ export default class Task_screen extends React.Component{
     String(item.task_note).toLowerCase().search(String(this.state.search_text).toLowerCase()) == -1) {
       return
     }
+    let task_note_single_line = item.task_note.split("/n")[0]
     return (
-      <Pressable onPress={() => this.change_to_task_edit(item.task_id)}>
-        {Task_component(item.task_title,item.task_note,item.task_min,item.task_hour,item.task_day,item.task_month,item.task_year)}
-      </Pressable>
+      <View style={styles.intaskcontainer}>
+        <Image source={require("./assets/images/untick.png")} style={{ flex: 1, resizeMode: "contain" }} />
+        <Pressable onPress={() => this.change_to_task_edit(item.task_id)} style={{ flex: 3 }}>
+          <View style={{ flex: 3, height: "100%", justifyContent: "space-around", paddingLeft: 3 }}>
+            <Text style={{ height: "40%", fontSize: 25, color: "black", textAlignVertical: "center", fontFamily: "Lexend Deca" }}>
+              {item.task_title}
+            </Text>
+            <Text style={{ height: "35%", fontSize: 15, color: "gray", textAlignVertical: "center" }}>
+              {task_note_single_line}
+            </Text>
+          </View>
+        </Pressable>
+        <Pressable onPress={() => this.change_to_task_edit(item.task_id)} style={{ flex: 1 }}>
+          <View style={{ flex: 1, padding: 10 }}>
+            <Text style={{ height: "35%", fontSize: 15, color: "black", textAlign: "center" }}>
+              {item.task_hour == null && item.task_min == null ? "" : item.task_hour + ":" + item.task_min}
+            </Text>
+            <Text style={{ height: "35%", fontSize: 15, color: "black", textAlign: "center" }}>
+              {item.task_day == null && item.task_month == null ? "" : item.task_day + "/" + item.task_month}
+            </Text>
+          </View>
+        </Pressable>
+      </View>
     )
   }
 
@@ -322,29 +343,4 @@ export default class Task_screen extends React.Component{
       )
     }
   }
-}
-
-const Task_component = (title,note,min,hour,day,month,year) => {
-  let note_single_line = note.split("/n")[0]
-  return (
-    <View style={styles.intaskcontainer}>
-      <Image source={require("./assets/images/untick.png")} style={{ flex: 1, resizeMode: "contain" }} />
-      <View style={{ flex: 3, height: "100%", justifyContent: "space-around", paddingLeft: 3 }}>
-        <Text style={{ height: "40%", fontSize: 25, color: "black", textAlignVertical: "center", fontFamily: "Lexend Deca" }}>
-          {title}
-        </Text>
-        <Text style={{ height: "35%", fontSize: 15, color: "gray", textAlignVertical: "center" }}>
-          {note_single_line}
-        </Text>
-      </View>
-      <View style={{ flex: 1, padding: 10 }}>
-        <Text style={{ height: "35%", fontSize: 15, color: "black", textAlign: "center" }}>
-          {hour == null && min == null ? "" : hour+":"+min}
-        </Text>
-        <Text style={{ height: "35%", fontSize: 15, color: "black", textAlign: "center" }}>
-          {day == null && month == null ? "" : day+"/"+month}
-        </Text>
-      </View>
-    </View>
-  )
 }
