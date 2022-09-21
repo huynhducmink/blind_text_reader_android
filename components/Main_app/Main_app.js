@@ -1,47 +1,26 @@
 import React from "react";
 import Note_screen from "./Note_screen/Note_screen";
 import Task_screen from "./Task_screen/Task_screen";
-import Calendar_screen from "./Calendar_screen/calendar_screen";
+import Calendar_screen from "./Calendar_screen/Calendar_screen";
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 export default class Main_app extends React.Component{
   constructor(props){
     super(props)
-
-    this.state={
-      screen:"note",
-    }
-    this.change_to_task_screen = this.change_to_task_screen.bind()
-    this.change_to_note_screen = this.change_to_note_screen.bind()
-    this.change_to_calendar_screen = this.change_to_calendar_screen.bind()
   }
 
-  change_to_task_screen = () => {
-    this.setState({screen:"task"})
-  }
-
-  change_to_note_screen = () => {
-    this.setState({screen:"note"})
-  }
-
-  change_to_calendar_screen = () => {
-    this.setState({screen:"calendar"})
-  }
+  Stack = createNativeStackNavigator();
 
   render(){
-    if (this.state.screen === "task"){
-      return (
-        <Task_screen change_to_note_screen={this.change_to_note_screen} change_to_calendar_screen={this.change_to_calendar_screen}/>
-      )
-    }
-    if (this.state.screen === "note"){
-      return (
-        <Note_screen change_to_task_screen={this.change_to_task_screen} change_to_calendar_screen={this.change_to_calendar_screen}/>
-      )
-    }
-    if (this.state.screen === "calendar"){
-      return (
-        <Calendar_screen change_to_task_screen={this.change_to_task_screen} change_to_note_screen={this.change_to_note_screen}/>
-      )
-    }
+    return(
+      <NavigationContainer>
+        <this.Stack.Navigator>
+          <this.Stack.Screen name="Task" component={Task_screen} options={{headerShown: false}}/>
+          <this.Stack.Screen name="Note" component={Note_screen} options={{headerShown: false}}/>
+          <this.Stack.Screen name="Calendar" component={Calendar_screen} options={{headerShown: false}}/>
+        </this.Stack.Navigator>
+      </NavigationContainer>
+    )
   }
 }

@@ -263,12 +263,12 @@ export default class Note_screen extends React.Component{
               <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
                 <Image source={require("./assets/images/note.png")} style={styles.notebar_icon} />
               </View>
-              <Pressable onPress={() => this.props.change_to_task_screen()} style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+              <Pressable onPress={() => this.props.navigation.navigate('Task')} style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
                 <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
                   <Image source={require("./assets/images/tick_2.png")} style={styles.notebar_icon} />
                 </View>
               </Pressable>
-              <Pressable onPress={() => this.props.change_to_calendar_screen()} style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+              <Pressable onPress={() => this.props.navigation.navigate('Calendar')} style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
               <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
                 <Image source={require("./assets/images/cal.png")} style={styles.notebar_icon} />
               </View>
