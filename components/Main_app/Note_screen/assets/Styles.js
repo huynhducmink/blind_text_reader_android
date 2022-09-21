@@ -113,7 +113,7 @@ export default styles = StyleSheet.create({
     borderRadius: 100,
     backgroundColor: "white",
     justifyContent: "center",
-    borderColor:"#FFC3C3",
+    borderColor:"#99D28B",
     borderWidth:3,
   },
 })

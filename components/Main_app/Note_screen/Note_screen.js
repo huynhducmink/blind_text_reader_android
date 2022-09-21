@@ -44,7 +44,7 @@ export default class Note_screen extends React.Component{
   componentDidMount = async () => {
     //load data from database in this function
     try {
-      let init_note = [{ note_id: uuid.v4().toString(), note_title: "Hello note", note_note: "world"}]
+      let init_note = [{ note_id: uuid.v4().toString(), note_title: "Hello world", note_note: "Testing note"}]
       let note_db = await this.db.getDBconnection()
       // await this.db.deletenotelist(note_db)
       await this.db.createtable(note_db)
@@ -130,7 +130,7 @@ export default class Note_screen extends React.Component{
   }
 
   update_note_after_edit = async () =>{
-    if ( this.note_to_edit.note_note == ""){return}
+    if ( this.note_to_edit.note_title == "" && this.note_to_edit.note_note == ""){return}
     for(let i = 0; i < this.note_list.length;i++){
       if (this.note_to_edit.note_id === this.note_list[i].note_id){
         this.note_list[i] = this.note_to_edit
@@ -261,11 +261,11 @@ export default class Note_screen extends React.Component{
                 <Image source={require("./assets/images/menu.png")} style={styles.notebar_icon} />
               </View>
               <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-                <Image source={require("./assets/images/note.png")} style={styles.notebar_icon} />
+                <Image source={require("./assets/images/note_2.png")} style={styles.notebar_icon} />
               </View>
               <Pressable onPress={() => this.props.navigation.navigate('Task')} style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
                 <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-                  <Image source={require("./assets/images/tick_2.png")} style={styles.notebar_icon} />
+                  <Image source={require("./assets/images/tick.png")} style={styles.notebar_icon} />
                 </View>
               </Pressable>
               <Pressable onPress={() => this.props.navigation.navigate('Calendar')} style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>

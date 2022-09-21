@@ -89,11 +89,11 @@ export default class Calendar_screen extends React.Component {
           </Pressable>
           <Pressable onPress={() => this.props.navigation.navigate('Task')} style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
             <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-              <Image source={require("./assets/images/tick_2.png")} style={styles.notebar_icon} />
+              <Image source={require("./assets/images/tick.png")} style={styles.notebar_icon} />
             </View>
           </Pressable>
           <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-            <Image source={require("./assets/images/cal.png")} style={styles.notebar_icon} />
+            <Image source={require("./assets/images/cal_2.png")} style={styles.notebar_icon} />
           </View>
         </View>
       </View>

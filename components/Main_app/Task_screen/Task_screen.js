@@ -55,9 +55,9 @@ export default class Task_screen extends React.Component{
   componentDidMount = async () => {
     //load data from database in this function
     try {
-      let init_task = [{ task_id: uuid.v4().toString(), task_title: "Hello task", task_note: "world", task_min: null, task_hour: null, task_day: null, task_month: null, task_year: null }]
+      let init_task = [{ task_id: uuid.v4().toString(), task_title: "Hello world", task_note: "Testing task", task_min: null, task_hour: null, task_day: null, task_month: null, task_year: null }]
       let task_db = await this.db.getDBconnection()
-      // await this.db.deleteTasklist(task_db)
+      // await this.db.deletetasklist(task_db)
       await this.db.createtable(task_db)
       this.task_list = await this.db.gettasklist(task_db)
       if (this.task_list.length){
@@ -156,7 +156,7 @@ export default class Task_screen extends React.Component{
   }
 
   update_task_after_edit = async () =>{
-    if ( this.task_to_edit.task_note == ""){return}
+    if ( this.task_to_edit.task_title == "" && this.task_to_edit.task_note == ""){return}
     for(let i = 0; i < this.task_list.length;i++){
       if (this.task_to_edit.task_id === this.task_list[i].task_id){
         this.task_list[i] = this.task_to_edit
