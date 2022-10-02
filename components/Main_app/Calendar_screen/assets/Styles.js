@@ -116,4 +116,14 @@ export default styles = StyleSheet.create({
     borderColor:"#FFC3C3",
     borderWidth:3,
   },
+  intaskcontainer: {
+    flexDirection:"row",
+    margin: 5,
+    width: "90%",
+    height: 80,
+    borderRadius:20,
+    backgroundColor: "white",
+    alignItems:"center",
+    justifyContent:"center"
+  },
 })

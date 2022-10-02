@@ -194,21 +194,21 @@ export default class Task_screen extends React.Component{
       <View style={styles.intaskcontainer}>
         <Image source={require("./assets/images/untick.png")} style={{ flex: 1, resizeMode: "contain" }} />
         <Pressable onPress={() => this.change_to_task_edit(item.task_id)} style={{ flex: 3 }}>
-          <View style={{ flex: 3, height: "100%", justifyContent: "space-around", paddingLeft: 3 }}>
+          <View style={{ flex: 3, height: "100%", justifyContent: "space-evenly", paddingLeft: 3 }}>
             <Text style={{ height: "40%", fontSize: 25, color: "black", textAlignVertical: "center", fontFamily: "Lexend Deca" }}>
               {item.task_title}
             </Text>
-            <Text style={{ height: "35%", fontSize: 15, color: "gray", textAlignVertical: "center" }}>
+            <Text style={{ height: "35%", fontSize: 20, color: "gray", textAlignVertical: "center" }}>
               {task_note_single_line}
             </Text>
           </View>
         </Pressable>
         <Pressable onPress={() => this.change_to_task_edit(item.task_id)} style={{ flex: 1 }}>
-          <View style={{ flex: 1, padding: 10 }}>
-            <Text style={{ height: "35%", fontSize: 15, color: "black", textAlign: "center" }}>
+          <View style={{ flex: 1, padding: 10, justifyContent:"space-around" }}>
+            <Text style={{ height: "35%", fontSize: 18, color: "black", textAlign: "center" }}>
               {item.task_hour == null && item.task_min == null ? "" : item.task_hour + ":" + item.task_min}
             </Text>
-            <Text style={{ height: "35%", fontSize: 15, color: "black", textAlign: "center" }}>
+            <Text style={{ height: "35%", fontSize: 18, color: "black", textAlign: "center" }}>
               {item.task_day == null && item.task_month == null ? "" : item.task_day + "/" + item.task_month}
             </Text>
           </View>
@@ -318,6 +318,7 @@ export default class Task_screen extends React.Component{
               <View style={{ flex: 1 }}>
                 <View onStartShouldSetResponder={() => true}>
                 <FlatList
+                  contailerStyle={{alignItems:"stretch"}}
                   data={reverse_task_list}
                   renderItem={this.render_task}
                   keyExtractor={item => item.task_id}
