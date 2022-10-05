@@ -102,19 +102,19 @@ export default class Calendar_screen extends React.Component {
     let task_note_single_line = item.task_note.split("/n")[0]
     return (
       <View style={styles.intaskcontainer}>
-        <View style={{ flex: 3, height: "100%", justifyContent: "space-evenly", paddingLeft: 20 }}>
-          <Text style={{ height: "40%", fontSize: 25, color: "black", textAlignVertical: "center", fontFamily: "Lexend Deca" }}>
+        <View style={{ flex: 3, height: "100%", justifyContent: "space-evenly", paddingLeft: 30 }}>
+          <Text numberOfLines={1} style={{ height: "50%", color: "black", textAlignVertical: "center" }}>
             {item.task_title}
           </Text>
-          <Text style={{ height: "35%", fontSize: 20, color: "gray", textAlignVertical: "center" }}>
+          <Text numberOfLines={1} style={{ height: "50%", color: "black", textAlignVertical: "center" }}>
             {task_note_single_line}
           </Text>
         </View>
         <View style={{ flex: 1, padding: 10, justifyContent: "space-around" }}>
-          <Text style={{ height: "35%", fontSize: 18, color: "black", textAlign: "center" }}>
+          <Text numberOfLines={1} style={{ height: "50%", color: "black", textAlign: "center", textAlignVertical: "center" }}>
             {item.task_hour == null && item.task_min == null ? "" : item.task_hour + ":" + item.task_min}
           </Text>
-          <Text style={{ height: "35%", fontSize: 18, color: "black", textAlign: "center" }}>
+          <Text numberOfLines={1} style={{ height: "50%", color: "black", textAlign: "center", textAlignVertical: "center" }}>
             {item.task_day == null && item.task_month == null ? "" : item.task_day + "/" + item.task_month}
           </Text>
         </View>

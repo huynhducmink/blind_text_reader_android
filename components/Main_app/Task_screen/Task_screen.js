@@ -1,3 +1,4 @@
+//to do sound noti, delete task, setting language
 import React from "react";
 import { 
   View, 

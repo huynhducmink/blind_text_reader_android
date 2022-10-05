@@ -182,7 +182,7 @@ export default class Note_screen extends React.Component{
             </View>
             <View style={{ flex: 7, alignItems: "stretch" }}>
               <TextInput
-                style={{ includeFontPadding:false, backgroundColor: "#99D28B", textAlignVertical: "center", fontSize: 40, flex: 1, marginBottom:10, borderRadius: 10 }}
+                style={{ includeFontPadding:false, backgroundColor: "#99D28B", textAlignVertical: "center", fontSize: 30, flex: 1, marginBottom:10, borderRadius: 10 }}
                 onChangeText={(input) => {
                   this.note_to_edit.note_title = input
                   this.setState({ note_to_edit: this.note_to_edit })
@@ -193,7 +193,7 @@ export default class Note_screen extends React.Component{
               />
               <TextInput
                 multiline
-                style={{ backgroundColor: "#99D28B", textAlignVertical: "top", fontSize: 30, flex: 8, borderRadius: 10 }}
+                style={{ backgroundColor: "#99D28B", textAlignVertical: "top", fontSize: 23, flex: 8, borderRadius: 10 }}
                 onChangeText={(input) => {
                   this.note_to_edit.note_note = input
                   this.setState({ note_to_edit: this.note_to_edit })
