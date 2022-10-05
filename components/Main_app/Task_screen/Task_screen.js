@@ -61,7 +61,7 @@ export default class Task_screen extends React.Component{
     try {
       let init_task = [{ task_id: uuid.v4().toString(), task_title: "Welcome to easy note", task_note: "", task_min: null, task_hour: null, task_day: null, task_month: null, task_year: null ,task_done: 0}]
       let task_db = await this.db.getDBconnection()
-      await this.db.deletetasklist(task_db)
+      // await this.db.deletetasklist(task_db)
       await this.db.createtable(task_db)
       this.task_list = await this.db.gettasklist(task_db)
       if (this.task_list.length){
@@ -236,7 +236,8 @@ export default class Task_screen extends React.Component{
       channelId: "esn-channel-id",
       title: title,
       message: "",
-      date: date
+      date: date,
+      playSound: true
     });
   }
   
@@ -254,20 +255,20 @@ export default class Task_screen extends React.Component{
           </Pressable>
           <Pressable onPress={() => this.change_to_task_edit(item.task_id)} style={{ flex: 3 }}>
             <View style={{ flex: 3, height: "100%", justifyContent: "space-evenly", paddingLeft: 3 }}>
-              <Text style={{ height: "40%", fontSize: 20, color: "black", textAlignVertical: "center", fontFamily: "Lexend Deca" }}>
+              <Text numberOfLines={1} style={{ height: "50%", color: "black", textAlignVertical: "center"}}>
                 {item.task_title}
               </Text>
-              <Text style={{ height: "35%", fontSize: 16, color: "black", textAlignVertical: "center" }}>
+              <Text numberOfLines={1} style={{ height: "50%", color: "black", textAlignVertical: "center" }}>
                 {task_note_single_line}
               </Text>
             </View>
           </Pressable>
           <Pressable onPress={() => this.change_to_task_edit(item.task_id)} style={{ flex: 1  }}>
             <View style={{ flex: 1, padding: 10, justifyContent: "space-around" }}>
-              <Text style={{ height: "35%", fontSize: 18, color: "black", textAlign: "center" }}>
+              <Text numberOfLines={1} style={{ height: "50%", color: "black", textAlign: "center", textAlignVertical:"center" }}>
                 {item.task_hour == null && item.task_min == null ? "" : item.task_hour + ":" + item.task_min}
               </Text>
-              <Text style={{ height: "35%", fontSize: 18, color: "black", textAlign: "center" }}>
+              <Text numberOfLines={1} style={{ height: "50%", color: "black", textAlign: "center", textAlignVertical:"center" }}>
                 {item.task_day == null && item.task_month == null ? "" : item.task_day + "/" + item.task_month}
               </Text>
             </View>
@@ -283,27 +284,20 @@ export default class Task_screen extends React.Component{
           </Pressable>
           <Pressable onPress={() => this.change_to_task_edit(item.task_id)} style={{ flex: 3 }}>
             <View style={{ flex: 3, height: "100%", justifyContent: "space-evenly", paddingLeft: 3 }}>
-              <Text style={{ height: "40%", fontSize: 20, color: "gray", textAlignVertical: "center", fontFamily: "Lexend Deca" }}>
+              <Text numberOfLines={1} style={{ height: "50%",  color: "gray", textAlignVertical: "center"}}>
                 {item.task_title}
               </Text>
-              <Text style={{ height: "35%", fontSize: 16, color: "gray", textAlignVertical: "center" }}>
+              <Text numberOfLines={1} style={{ height: "50%", color: "gray", textAlignVertical: "center" }}>
                 {task_note_single_line}
               </Text>
             </View>
           </Pressable>
-          {/* <Pressable onPress={() => this.delete_task(item.task_id)} style={{ flex: 1 }}>
-            <View style={{ flex: 1, padding: 10, justifyContent: "space-around", backgroundColor:"pink", borderTopRightRadius:20, borderBottomRightRadius:20 }}>
-              <Text style={{ width: "100%", color: "black", textAlign: "center" }}>
-                Delete
-              </Text>
-            </View>
-          </Pressable> */}
           <Pressable onPress={() => this.change_to_task_edit(item.task_id)} style={{ flex: 1  }}>
             <View style={{ flex: 1, padding: 10, justifyContent: "space-around" }}>
-              <Text style={{ height: "35%", fontSize: 18, color: "gray", textAlign: "center" }}>
+              <Text numberOfLines={1} style={{ height: "50%", color: "gray", textAlign: "center" }}>
                 {item.task_hour == null && item.task_min == null ? "" : item.task_hour + ":" + item.task_min}
               </Text>
-              <Text style={{ height: "35%", fontSize: 18, color: "gray", textAlign: "center" }}>
+              <Text numberOfLines={1} style={{ height: "50%", color: "gray", textAlign: "center" }}>
                 {item.task_day == null && item.task_month == null ? "" : item.task_day + "/" + item.task_month}
               </Text>
             </View>
@@ -329,7 +323,7 @@ export default class Task_screen extends React.Component{
             </View>
             <View style={{ flex: 7, alignItems: "stretch" }}>
               <TextInput
-                style={{ backgroundColor: "#99D28B", textAlignVertical: "center", fontSize: 40, flex: 1, marginBottom:10, borderRadius: 10 }}
+                style={{includeFontPadding:false, backgroundColor: "#99D28B", textAlignVertical: "center", fontSize: 30, flex: 1, marginBottom:10, borderRadius: 10 }}
                 onChangeText={(input) => {
                   this.task_to_edit.task_title = input
                   this.setState({ task_to_edit: this.task_to_edit })
@@ -340,7 +334,7 @@ export default class Task_screen extends React.Component{
               />
               <TextInput
                 multiline
-                style={{ backgroundColor: "#99D28B", textAlignVertical: "top", fontSize: 30, flex: 8, borderRadius: 10 }}
+                style={{ backgroundColor: "#99D28B", textAlignVertical: "top", fontSize: 23, flex: 8, borderRadius: 10 }}
                 onChangeText={(input) => {
                   this.task_to_edit.task_note = input
                   this.setState({ task_to_edit: this.task_to_edit })

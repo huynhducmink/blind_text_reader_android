@@ -46,7 +46,7 @@ export default class Note_screen extends React.Component{
     try {
       let init_note = [{ note_id: uuid.v4().toString(), note_title: "Welcome to easy note", note_note: ""}]
       let note_db = await this.db.getDBconnection()
-      await this.db.deletenotelist(note_db)
+      // await this.db.deletenotelist(note_db)
       await this.db.createtable(note_db)
       this.note_list = await this.db.getnotelist(note_db)
       if (this.note_list.length){
@@ -153,11 +153,11 @@ export default class Note_screen extends React.Component{
     return (
       <View style={styles.innotecontainer}>
         <Pressable onPress={() => this.change_to_note_edit(item.note_id)} style={{ flex: 5 }}>
-          <View style={{ flex: 3, height: "100%", justifyContent: "space-around", paddingLeft: 30 }}>
-            <Text style={{ height: "40%", fontSize: 20, color: "black", textAlignVertical: "center", fontFamily: "Lexend Deca" }}>
+          <View style={{ flex: 3, height: "100%", justifyContent: "space-around", paddingLeft: 40 }}>
+            <Text numberOfLines={1} style={{ height: "50%", color: "black", textAlignVertical: "center", fontFamily: "Lexend Deca" }}>
               {item.note_title}
             </Text>
-            <Text style={{ height: "35%", fontSize: 16, color: "gray", textAlignVertical: "center" }}>
+            <Text numberOfLines={1} style={{ height: "50%", color: "gray", textAlignVertical: "center" }}>
               {note_note_single_line}
             </Text>
           </View>
@@ -182,7 +182,7 @@ export default class Note_screen extends React.Component{
             </View>
             <View style={{ flex: 7, alignItems: "stretch" }}>
               <TextInput
-                style={{ backgroundColor: "#99D28B", textAlignVertical: "center", fontSize: 40, flex: 1, marginBottom:10, borderRadius: 10 }}
+                style={{ includeFontPadding:false, backgroundColor: "#99D28B", textAlignVertical: "center", fontSize: 40, flex: 1, marginBottom:10, borderRadius: 10 }}
                 onChangeText={(input) => {
                   this.note_to_edit.note_title = input
                   this.setState({ note_to_edit: this.note_to_edit })
