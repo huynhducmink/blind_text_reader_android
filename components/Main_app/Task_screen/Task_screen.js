@@ -36,6 +36,8 @@ export default class Task_screen extends React.Component{
     this.render_task = this.render_task.bind()
     this.update_current_task_date = this.update_current_task_date.bind()
     this.update_open_date_picker = this.update_open_date_picker.bind()
+    this.delete_task = this.delete_task.bind()
+    this.change_task_done = this.change_task_done.bind()
   }
 
   task_list = []
@@ -55,9 +57,9 @@ export default class Task_screen extends React.Component{
   componentDidMount = async () => {
     //load data from database in this function
     try {
-      let init_task = [{ task_id: uuid.v4().toString(), task_title: "Hello world", task_note: "Testing task", task_min: null, task_hour: null, task_day: null, task_month: null, task_year: null }]
+      let init_task = [{ task_id: uuid.v4().toString(), task_title: "Welcome to easy note", task_note: "", task_min: null, task_hour: null, task_day: null, task_month: null, task_year: null ,task_done: 0}]
       let task_db = await this.db.getDBconnection()
-      // await this.db.deletetasklist(task_db)
+      await this.db.deletetasklist(task_db)
       await this.db.createtable(task_db)
       this.task_list = await this.db.gettasklist(task_db)
       if (this.task_list.length){
@@ -74,7 +76,7 @@ export default class Task_screen extends React.Component{
     }
   }
 
-  add_task_list = async (title,note,min,hour,day,month,year) => {
+  add_task_list = async (title,note,min,hour,day,month,year,done) => {
     let new_single_task = {
       task_id: uuid.v4(),
       task_title: title,
@@ -84,6 +86,7 @@ export default class Task_screen extends React.Component{
       task_day: day,
       task_month: month,
       task_year: year,
+      task_done: done,
     }
     this.task_list.push(new_single_task)
     let task_db = await this.db.getDBconnection()
@@ -92,7 +95,7 @@ export default class Task_screen extends React.Component{
     this.setState({task_list:this.task_list})
   }
 
-  add_task_list_date = async (title,note,date) => {
+  add_task_list_date = async (title,note,date,done) => {
     let new_single_task = {
       task_id: uuid.v4(),
       task_title: title,
@@ -102,6 +105,7 @@ export default class Task_screen extends React.Component{
       task_day: date.getDate(),
       task_month: date.getMonth()+1,
       task_year: date.getFullYear(),
+      task_done: done,
     }
     this.task_list.push(new_single_task)
     let task_db = await this.db.getDBconnection()
@@ -140,6 +144,7 @@ export default class Task_screen extends React.Component{
         task_day: null,
         task_month: null,
         task_year: null,
+        task_done: 0,
       }
       this.setState({task_to_edit:this.task_to_edit})
     }
@@ -167,7 +172,7 @@ export default class Task_screen extends React.Component{
         return
       }
     }
-    this.add_task_list(this.task_to_edit.task_title,this.task_to_edit.task_note,this.task_to_edit.task_min,this.task_to_edit.task_hour,this.task_to_edit.task_day,this.task_to_edit.task_month,this.task_to_edit.task_year)
+    this.add_task_list(this.task_to_edit.task_title,this.task_to_edit.task_note,this.task_to_edit.task_min,this.task_to_edit.task_hour,this.task_to_edit.task_day,this.task_to_edit.task_month,this.task_to_edit.task_year,this.task_to_edit.task_done)
     return
   }
 
@@ -183,6 +188,36 @@ export default class Task_screen extends React.Component{
   update_open_date_picker = (boolinput) => {
     this.setState({open_date_picker:boolinput})
   }
+
+  delete_task = async(id) => {
+    for(let i = 0; i < this.task_list.length;i++){
+      if (id === this.task_list[i].task_id){
+        this.task_list.splice(i, 1)
+      }
+      let task_db = await this.db.getDBconnection()
+      await this.db.deletetask(task_db, id)
+    }
+    this.setState({task_list:this.task_list})
+  }
+
+  change_task_done = async(id_array) => {
+    for (let j = 0; j< id_array.length;j++){
+      let id = id_array[j]
+      for(let i = 0; i < this.task_list.length;i++){
+        if (id === this.task_list[i].task_id){
+          if (this.task_list[i].task_done === 0 ){
+            this.task_list[i].task_done = 1
+          }
+          else if (this.task_list[i].task_done === 1 ){
+            this.task_list[i].task_done = 0
+          }
+        }
+      }
+    }
+    let task_db = await this.db.getDBconnection()
+    await this.db.savetotasklist(task_db, this.task_list)
+    this.setState({ task_list: this.db.gettasklist(task_db) })
+  }
   
   render_task = ({item}) => {
     if ( String(item.task_title).toLowerCase().search(String(this.state.search_text).toLowerCase()) == -1 &&
@@ -190,31 +225,71 @@ export default class Task_screen extends React.Component{
       return
     }
     let task_note_single_line = item.task_note.split("/n")[0]
-    return (
-      <View style={styles.intaskcontainer}>
-        <Image source={require("./assets/images/untick.png")} style={{ flex: 1, resizeMode: "contain" }} />
-        <Pressable onPress={() => this.change_to_task_edit(item.task_id)} style={{ flex: 3 }}>
-          <View style={{ flex: 3, height: "100%", justifyContent: "space-evenly", paddingLeft: 3 }}>
-            <Text style={{ height: "40%", fontSize: 25, color: "black", textAlignVertical: "center", fontFamily: "Lexend Deca" }}>
-              {item.task_title}
-            </Text>
-            <Text style={{ height: "35%", fontSize: 20, color: "gray", textAlignVertical: "center" }}>
-              {task_note_single_line}
-            </Text>
-          </View>
-        </Pressable>
-        <Pressable onPress={() => this.change_to_task_edit(item.task_id)} style={{ flex: 1 }}>
-          <View style={{ flex: 1, padding: 10, justifyContent:"space-around" }}>
-            <Text style={{ height: "35%", fontSize: 18, color: "black", textAlign: "center" }}>
-              {item.task_hour == null && item.task_min == null ? "" : item.task_hour + ":" + item.task_min}
-            </Text>
-            <Text style={{ height: "35%", fontSize: 18, color: "black", textAlign: "center" }}>
-              {item.task_day == null && item.task_month == null ? "" : item.task_day + "/" + item.task_month}
-            </Text>
-          </View>
-        </Pressable>
-      </View>
-    )
+    if (item.task_done === 0){
+      return (
+        <View style={styles.intaskcontainer}>
+          <Pressable onPress={() => this.change_task_done([item.task_id])} style={{ flex: 1 , alignItems: "center"}}>
+            <Image source={require("./assets/images/untick.png")} style={{ flex: 1, resizeMode: "contain" }} />
+          </Pressable>
+          <Pressable onPress={() => this.change_to_task_edit(item.task_id)} style={{ flex: 3 }}>
+            <View style={{ flex: 3, height: "100%", justifyContent: "space-evenly", paddingLeft: 3 }}>
+              <Text style={{ height: "40%", fontSize: 20, color: "black", textAlignVertical: "center", fontFamily: "Lexend Deca" }}>
+                {item.task_title}
+              </Text>
+              <Text style={{ height: "35%", fontSize: 16, color: "black", textAlignVertical: "center" }}>
+                {task_note_single_line}
+              </Text>
+            </View>
+          </Pressable>
+          <Pressable onPress={() => this.change_to_task_edit(item.task_id)} style={{ flex: 1  }}>
+            <View style={{ flex: 1, padding: 10, justifyContent: "space-around" }}>
+              <Text style={{ height: "35%", fontSize: 18, color: "black", textAlign: "center" }}>
+                {item.task_hour == null && item.task_min == null ? "" : item.task_hour + ":" + item.task_min}
+              </Text>
+              <Text style={{ height: "35%", fontSize: 18, color: "black", textAlign: "center" }}>
+                {item.task_day == null && item.task_month == null ? "" : item.task_day + "/" + item.task_month}
+              </Text>
+            </View>
+          </Pressable>
+        </View>
+      )
+    }
+    if (item.task_done === 1){
+      return (
+        <View style={styles.intaskcontainer}>
+          <Pressable onPress={() => this.change_task_done([item.task_id])} style={{ flex: 1 , alignItems: "center"}}>
+            <Image source={require("./assets/images/tick.png")} style={{ flex: 1, resizeMode: "contain" }} />
+          </Pressable>
+          <Pressable onPress={() => this.change_to_task_edit(item.task_id)} style={{ flex: 3 }}>
+            <View style={{ flex: 3, height: "100%", justifyContent: "space-evenly", paddingLeft: 3 }}>
+              <Text style={{ height: "40%", fontSize: 20, color: "gray", textAlignVertical: "center", fontFamily: "Lexend Deca" }}>
+                {item.task_title}
+              </Text>
+              <Text style={{ height: "35%", fontSize: 16, color: "gray", textAlignVertical: "center" }}>
+                {task_note_single_line}
+              </Text>
+            </View>
+          </Pressable>
+          {/* <Pressable onPress={() => this.delete_task(item.task_id)} style={{ flex: 1 }}>
+            <View style={{ flex: 1, padding: 10, justifyContent: "space-around", backgroundColor:"pink", borderTopRightRadius:20, borderBottomRightRadius:20 }}>
+              <Text style={{ width: "100%", color: "black", textAlign: "center" }}>
+                Delete
+              </Text>
+            </View>
+          </Pressable> */}
+          <Pressable onPress={() => this.change_to_task_edit(item.task_id)} style={{ flex: 1  }}>
+            <View style={{ flex: 1, padding: 10, justifyContent: "space-around" }}>
+              <Text style={{ height: "35%", fontSize: 18, color: "gray", textAlign: "center" }}>
+                {item.task_hour == null && item.task_min == null ? "" : item.task_hour + ":" + item.task_min}
+              </Text>
+              <Text style={{ height: "35%", fontSize: 18, color: "gray", textAlign: "center" }}>
+                {item.task_day == null && item.task_month == null ? "" : item.task_day + "/" + item.task_month}
+              </Text>
+            </View>
+          </Pressable>
+        </View>
+      )
+    }
   }
 
   render() {

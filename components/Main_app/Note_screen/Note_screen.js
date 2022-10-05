@@ -44,9 +44,9 @@ export default class Note_screen extends React.Component{
   componentDidMount = async () => {
     //load data from database in this function
     try {
-      let init_note = [{ note_id: uuid.v4().toString(), note_title: "Hello world", note_note: "Testing note"}]
+      let init_note = [{ note_id: uuid.v4().toString(), note_title: "Welcome to easy note", note_note: ""}]
       let note_db = await this.db.getDBconnection()
-      // await this.db.deletenotelist(note_db)
+      await this.db.deletenotelist(note_db)
       await this.db.createtable(note_db)
       this.note_list = await this.db.getnotelist(note_db)
       if (this.note_list.length){
@@ -154,10 +154,10 @@ export default class Note_screen extends React.Component{
       <View style={styles.innotecontainer}>
         <Pressable onPress={() => this.change_to_note_edit(item.note_id)} style={{ flex: 5 }}>
           <View style={{ flex: 3, height: "100%", justifyContent: "space-around", paddingLeft: 30 }}>
-            <Text style={{ height: "40%", fontSize: 25, color: "black", textAlignVertical: "center", fontFamily: "Lexend Deca" }}>
+            <Text style={{ height: "40%", fontSize: 20, color: "black", textAlignVertical: "center", fontFamily: "Lexend Deca" }}>
               {item.note_title}
             </Text>
-            <Text style={{ height: "35%", fontSize: 15, color: "gray", textAlignVertical: "center" }}>
+            <Text style={{ height: "35%", fontSize: 16, color: "gray", textAlignVertical: "center" }}>
               {note_note_single_line}
             </Text>
           </View>

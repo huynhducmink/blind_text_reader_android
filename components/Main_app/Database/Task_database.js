@@ -20,7 +20,8 @@ export default class taskDB extends React.Component{
        task_hour INTEGER ,
        task_day INTEGER ,
        task_month INTEGER ,
-       task_year INTEGER 
+       task_year INTEGER ,
+       task_done INTERGER
   );`;
     await db.executeSql(query);
 
@@ -45,12 +46,12 @@ export default class taskDB extends React.Component{
   }
 
   savetotasklist = async (db, task_list) => {
-    let query = `INSERT OR REPLACE INTO task_table(task_id, task_title, task_note, task_min, task_hour, task_day, task_month, task_year) VALUES` + task_list.map(i => `('${i.task_id}','${i.task_title}','${i.task_note}',${i.task_min},${i.task_hour},${i.task_day},${i.task_month},${i.task_year})`).join(',')
+    let query = `INSERT OR REPLACE INTO task_table(task_id, task_title, task_note, task_min, task_hour, task_day, task_month, task_year, task_done) VALUES` + task_list.map(i => `('${i.task_id}','${i.task_title}','${i.task_note}',${i.task_min},${i.task_hour},${i.task_day},${i.task_month},${i.task_year},${i.task_done})`).join(',')
     await db.executeSql(query)
   }
 
   deletetask = async (db,id) => {
-    let query = `DELETE from task_table where task_id = ${id}`
+    let query = `DELETE from task_table where task_id = '${id}'`
     await db.executeSql(query)
   }
 
