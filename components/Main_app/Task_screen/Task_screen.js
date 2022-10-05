@@ -171,10 +171,20 @@ export default class Task_screen extends React.Component{
         let task_db = await this.db.getDBconnection()
         await this.db.savetotasklist(task_db,this.task_list)
         this.setState({task_list:this.db.gettasklist(task_db)})
+        if (this.task_to_edit.task_min != null){
+          let date = new Date(this.task_to_edit.task_year,this.task_to_edit.task_month-1,this.task_to_edit.task_day,this.task_to_edit.task_hour,this.task_to_edit.task_min,0,0)
+          this.noti(date,this.task_to_edit.task_title)
+          console.log(date)
+        }
         return
       }
     }
     this.add_task_list(this.task_to_edit.task_title,this.task_to_edit.task_note,this.task_to_edit.task_min,this.task_to_edit.task_hour,this.task_to_edit.task_day,this.task_to_edit.task_month,this.task_to_edit.task_year,this.task_to_edit.task_done)
+    if (this.task_to_edit.task_min != null) {
+      let date = new Date(this.task_to_edit.task_year, this.task_to_edit.task_month -1, this.task_to_edit.task_day, this.task_to_edit.task_hour, this.task_to_edit.task_min, 0, 0)
+      this.noti(date, this.task_to_edit.task_title)
+        console.log(date)
+    }
     return
   }
 
@@ -221,12 +231,12 @@ export default class Task_screen extends React.Component{
     this.setState({ task_list: this.db.gettasklist(task_db) })
   }
 
-  noti =  () => {
+  noti = (date,title) => {
     PushNotification.localNotificationSchedule({
       channelId: "esn-channel-id",
-      title: "Hello",
-      message: "world",
-      date: new Date(Date.now() + 20 * 1000)
+      title: title,
+      message: "",
+      date: date
     });
   }
   
@@ -242,7 +252,7 @@ export default class Task_screen extends React.Component{
           <Pressable onPress={() => this.change_task_done([item.task_id])} style={{ flex: 1 , alignItems: "center"}}>
             <Image source={require("./assets/images/untick.png")} style={{ flex: 1, resizeMode: "contain" }} />
           </Pressable>
-          <Pressable onPress={() => this.noti()} style={{ flex: 3 }}>
+          <Pressable onPress={() => this.change_to_task_edit(item.task_id)} style={{ flex: 3 }}>
             <View style={{ flex: 3, height: "100%", justifyContent: "space-evenly", paddingLeft: 3 }}>
               <Text style={{ height: "40%", fontSize: 20, color: "black", textAlignVertical: "center", fontFamily: "Lexend Deca" }}>
                 {item.task_title}
