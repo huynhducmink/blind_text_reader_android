@@ -14,6 +14,7 @@ import uuid from 'react-native-uuid';
 import DatePicker from "react-native-date-picker";
 import taskDB from "../Database/Task_database";
 import { placeholder } from "deprecated-react-native-prop-types/DeprecatedTextInputPropTypes";
+import PushNotification from "react-native-push-notification";
 
 export default class Task_screen extends React.Component{
   constructor(props){
@@ -38,6 +39,7 @@ export default class Task_screen extends React.Component{
     this.update_open_date_picker = this.update_open_date_picker.bind()
     this.delete_task = this.delete_task.bind()
     this.change_task_done = this.change_task_done.bind()
+    this.noti = this.noti.bind()
   }
 
   task_list = []
@@ -218,6 +220,15 @@ export default class Task_screen extends React.Component{
     await this.db.savetotasklist(task_db, this.task_list)
     this.setState({ task_list: this.db.gettasklist(task_db) })
   }
+
+  noti =  () => {
+    PushNotification.localNotificationSchedule({
+      channelId: "esn-channel-id",
+      title: "Hello",
+      message: "world",
+      date: new Date(Date.now() + 20 * 1000)
+    });
+  }
   
   render_task = ({item}) => {
     if ( String(item.task_title).toLowerCase().search(String(this.state.search_text).toLowerCase()) == -1 &&
@@ -231,7 +242,7 @@ export default class Task_screen extends React.Component{
           <Pressable onPress={() => this.change_task_done([item.task_id])} style={{ flex: 1 , alignItems: "center"}}>
             <Image source={require("./assets/images/untick.png")} style={{ flex: 1, resizeMode: "contain" }} />
           </Pressable>
-          <Pressable onPress={() => this.change_to_task_edit(item.task_id)} style={{ flex: 3 }}>
+          <Pressable onPress={() => this.noti()} style={{ flex: 3 }}>
             <View style={{ flex: 3, height: "100%", justifyContent: "space-evenly", paddingLeft: 3 }}>
               <Text style={{ height: "40%", fontSize: 20, color: "black", textAlignVertical: "center", fontFamily: "Lexend Deca" }}>
                 {item.task_title}

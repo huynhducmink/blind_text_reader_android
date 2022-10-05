@@ -4,13 +4,27 @@ import Task_screen from "./Task_screen/Task_screen";
 import Calendar_screen from "./Calendar_screen/Calendar_screen";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import PushNotification from "react-native-push-notification";
 
 export default class Main_app extends React.Component{
   constructor(props){
     super(props)
   }
 
+  createChannels = () => {
+    PushNotification.createChannel(
+      {
+        channelId: "esn-channel-id", // (required)
+        channelName: "My channel", // (required)
+      },
+    );
+  }
+
   Stack = createNativeStackNavigator();
+
+  componentDidMount = () => {
+    this.createChannels()
+  }
 
   render(){
     return(
