@@ -45,7 +45,7 @@ export default class noteDB extends React.Component{
   }
 
   deletenote = async (db,id) => {
-    let query = `DELETE from note_table where note_id = ${id}`
+    let query = `DELETE from note_table where note_id = '${id}'`
     await db.executeSql(query)
   }
 

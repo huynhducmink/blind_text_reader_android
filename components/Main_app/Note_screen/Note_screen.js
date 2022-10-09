@@ -33,6 +33,7 @@ export default class Note_screen extends React.Component{
     this.change_to_note_edit = this.change_to_note_edit.bind()
     this.update_note_after_edit = this.update_note_after_edit.bind()
     this.render_note = this.render_note.bind()
+    this.delete_note = this.delete_note.bind()
   }
 
   note_list = []
@@ -151,6 +152,17 @@ export default class Note_screen extends React.Component{
     this.add_note_list(this.note_to_edit.note_title,this.note_to_edit.note_note,this.note_to_edit)
     return
   }
+
+  delete_note = async(id) => {
+    for(let i = 0; i < this.note_list.length;i++){
+      if (id === this.note_list[i].note_id){
+        this.note_list.splice(i, 1)
+      }
+      let note_db = await this.db.getDBconnection()
+      await this.db.deletenote(note_db, id)
+    }
+    this.setState({note_list:this.note_list})
+  }
   
   render_note = ({item}) => {
     if ( String(item.note_title).toLowerCase().search(String(this.state.search_text).toLowerCase()) == -1 &&
@@ -160,7 +172,8 @@ export default class Note_screen extends React.Component{
     let note_note_single_line = item.note_note.split("/n")[0]
     return (
       <View style={styles.innotecontainer}>
-        <Pressable onPress={() => this.change_to_note_edit(item.note_id)} style={{ flex: 5 }}>
+        <Pressable onPress={() => this.change_to_note_edit(item.note_id)}
+        onLongPress={() => this.delete_note(item.note_id)} style={{ flex: 5 }}>
           <View style={{ flex: 3, height: "100%", justifyContent: "space-around", paddingLeft: 40 }}>
             <Text numberOfLines={1} style={{ height: "50%", color: "black", textAlignVertical: "center", fontFamily: "Lexend Deca" }}>
               {item.note_title}

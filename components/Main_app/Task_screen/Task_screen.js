@@ -259,7 +259,8 @@ export default class Task_screen extends React.Component{
           <Pressable onPress={() => this.change_task_done([item.task_id])} style={{ flex: 1 , alignItems: "center"}}>
             <Image source={require("./assets/images/untick.png")} style={{ flex: 1, resizeMode: "contain" }} />
           </Pressable>
-          <Pressable onPress={() => this.change_to_task_edit(item.task_id)} style={{ flex: 3 }}>
+          <Pressable onPress={() => this.change_to_task_edit(item.task_id)}
+          onLongPress={() => this.delete_task(item.task_id)} style={{ flex: 3 }}>
             <View style={{ flex: 3, height: "100%", justifyContent: "space-evenly", paddingLeft: 3 }}>
               <Text numberOfLines={1} style={{ height: "50%", color: "black", textAlignVertical: "center"}}>
                 {item.task_title}
@@ -269,7 +270,8 @@ export default class Task_screen extends React.Component{
               </Text>
             </View>
           </Pressable>
-          <Pressable onPress={() => this.change_to_task_edit(item.task_id)} style={{ flex: 1  }}>
+          <Pressable onPress={() => this.change_to_task_edit(item.task_id)}
+          onLongPress={() => this.delete_task(item.task_id)} style={{ flex: 1  }}>
             <View style={{ flex: 1, padding: 10, justifyContent: "space-around" }}>
               <Text numberOfLines={1} style={{ height: "50%", color: "black", textAlign: "center", textAlignVertical:"center" }}>
                 {item.task_hour == null && item.task_min == null ? "" : item.task_hour + ":" + item.task_min}
@@ -288,7 +290,8 @@ export default class Task_screen extends React.Component{
           <Pressable onPress={() => this.change_task_done([item.task_id])} style={{ flex: 1 , alignItems: "center"}}>
             <Image source={require("./assets/images/tick.png")} style={{ flex: 1, resizeMode: "contain" }} />
           </Pressable>
-          <Pressable onPress={() => this.change_to_task_edit(item.task_id)} style={{ flex: 3 }}>
+          <Pressable onPress={() => this.change_to_task_edit(item.task_id)}
+          onLongPress={() => this.delete_task(item.task_id)} style={{ flex: 3 }}>
             <View style={{ flex: 3, height: "100%", justifyContent: "space-evenly", paddingLeft: 3 }}>
               <Text numberOfLines={1} style={{ height: "50%",  color: "gray", textAlignVertical: "center"}}>
                 {item.task_title}
@@ -298,7 +301,8 @@ export default class Task_screen extends React.Component{
               </Text>
             </View>
           </Pressable>
-          <Pressable onPress={() => this.change_to_task_edit(item.task_id)} style={{ flex: 1  }}>
+          <Pressable onPress={() => this.change_to_task_edit(item.task_id)}
+          onLongPress={() => this.delete_task(item.task_id)} style={{ flex: 1  }}>
             <View style={{ flex: 1, padding: 10, justifyContent: "space-around" }}>
               <Text numberOfLines={1} style={{ height: "50%", color: "gray", textAlign: "center" }}>
                 {item.task_hour == null && item.task_min == null ? "" : item.task_hour + ":" + item.task_min}
