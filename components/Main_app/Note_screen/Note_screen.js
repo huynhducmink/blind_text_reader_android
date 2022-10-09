@@ -12,6 +12,8 @@ import {
 import styles from "./assets/Styles"
 import uuid from 'react-native-uuid';
 import noteDB from "../Database/Note_database";
+import Settings from "../Setting_screen/Settings"
+import {lang} from "../Languages/lang"
 
 export default class Note_screen extends React.Component{
   constructor(props){
@@ -21,6 +23,7 @@ export default class Note_screen extends React.Component{
       note_list:[],
       note_to_edit:{},
       screen:"note_view",
+      language:""
     }
     this.add_note_list = this.add_note_list.bind()
     this.clear_note_list = this.clear_note_list.bind()
@@ -40,6 +43,7 @@ export default class Note_screen extends React.Component{
   }
   search_text = ""
   db = new noteDB
+  setting = new Settings
 
   componentDidMount = async () => {
     //load data from database in this function
@@ -61,6 +65,10 @@ export default class Note_screen extends React.Component{
     catch(error){
       console.error(error)
     }
+
+    let loadlang = await this.setting.loadLanguage()
+    this.setState({language:loadlang})
+    console.log("reload note screen")
   }
 
   add_note_list = async (title,note) => {
@@ -176,7 +184,7 @@ export default class Note_screen extends React.Component{
               <Pressable onPress={() => this.return_to_note_view()} style={{ flexDirection: "row" }}>
                 <Image source={require("./assets/images/arrow-left.png")}/>
                 <Text style={{ fontSize: 20 }}>
-                  Return
+                  {lang["return"][this.state.language]}
                 </Text>
               </Pressable>
             </View>
@@ -188,7 +196,7 @@ export default class Note_screen extends React.Component{
                   this.setState({ note_to_edit: this.note_to_edit })
                 }
                 }
-                placeholder="note title"
+                placeholder= {lang["title"][this.state.language]}
                 value={this.state.note_to_edit.note_title}
               />
               <TextInput
@@ -199,7 +207,7 @@ export default class Note_screen extends React.Component{
                   this.setState({ note_to_edit: this.note_to_edit })
                 }
                 }
-                placeholder="note note"
+                placeholder= {lang["note"][this.state.language]}
                 value={this.state.note_to_edit.note_note}
               />
             </View>
@@ -211,7 +219,7 @@ export default class Note_screen extends React.Component{
             <Pressable onPress={() => this.change_to_note_view()}>
               <View style={styles.donenotebutton}>
                 <Text style={{ textAlign: 'center' }}>
-                  Done
+                  {lang["done"][this.state.language]}
                 </Text>
               </View>
             </Pressable>
@@ -230,6 +238,7 @@ export default class Note_screen extends React.Component{
                     style={styles.input}
                     onChangeText={this.set_search_text}
                     value={this.search_text}
+                    placeholder={lang["search"][this.state.language]}
                   />
                 </View>
                 <Image source={require("./assets/images/search.png")} style={styles.search_icon} />
@@ -251,24 +260,26 @@ export default class Note_screen extends React.Component{
               <Pressable onPress={() => this.change_to_note_edit("new")}>
                 <View style={styles.addnotebutton}>
                   <Text style={{ textAlign: 'center' }}>
-                    Add note
+                    {lang["addnote"][this.state.language]}
                   </Text>
                 </View>
               </Pressable>
             </View>
             <View style={styles.topcontainer}>
+              <Pressable onPress={() => this.props.navigation.push('Setting')} style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
               <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
                 <Image source={require("./assets/images/menu.png")} style={styles.notebar_icon} />
               </View>
+              </Pressable>
               <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
                 <Image source={require("./assets/images/note_2.png")} style={styles.notebar_icon} />
               </View>
-              <Pressable onPress={() => this.props.navigation.navigate('Task')} style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+              <Pressable onPress={() => this.props.navigation.push('Task')} style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
                 <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
                   <Image source={require("./assets/images/tick.png")} style={styles.notebar_icon} />
                 </View>
               </Pressable>
-              <Pressable onPress={() => this.props.navigation.navigate('Calendar')} style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+              <Pressable onPress={() => this.props.navigation.push('Calendar')} style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
               <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
                 <Image source={require("./assets/images/cal.png")} style={styles.notebar_icon} />
               </View>

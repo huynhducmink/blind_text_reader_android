@@ -8,7 +8,7 @@ export default class taskDB extends React.Component{
   }
 
   getDBconnection = async () => {
-    return openDatabase({name:'taskdb.db',location:'default'});
+    return openDatabase({name:'db.db',location:'default'});
   }
 
   createtable = async (db) => {

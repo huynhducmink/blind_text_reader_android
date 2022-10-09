@@ -14,8 +14,9 @@ import styles from "./assets/Styles"
 import uuid from 'react-native-uuid';
 import DatePicker from "react-native-date-picker";
 import taskDB from "../Database/Task_database";
-import { placeholder } from "deprecated-react-native-prop-types/DeprecatedTextInputPropTypes";
 import PushNotification from "react-native-push-notification";
+import Settings from "../Setting_screen/Settings";
+import {lang} from "../Languages/lang"
 
 export default class Task_screen extends React.Component{
   constructor(props){
@@ -26,6 +27,7 @@ export default class Task_screen extends React.Component{
       task_to_edit:{},
       screen:"task_view",
       open_date_picker: false,
+      language:""
     }
     this.add_task_list = this.add_task_list.bind()
     this.add_task_list_date = this.add_task_list_date.bind()
@@ -56,6 +58,7 @@ export default class Task_screen extends React.Component{
   }
   search_text = ""
   db = new taskDB
+  setting = new Settings
 
   componentDidMount = async () => {
     //load data from database in this function
@@ -77,6 +80,10 @@ export default class Task_screen extends React.Component{
     catch(error){
       console.error(error)
     }
+
+    let loadlang = await this.setting.loadLanguage()
+    this.setState({language:loadlang})
+    console.log("reload task screen")
   }
 
   add_task_list = async (title,note,min,hour,day,month,year,done) => {
@@ -175,7 +182,6 @@ export default class Task_screen extends React.Component{
         if (this.task_to_edit.task_min != null){
           let date = new Date(this.task_to_edit.task_year,this.task_to_edit.task_month-1,this.task_to_edit.task_day,this.task_to_edit.task_hour,this.task_to_edit.task_min,0,0)
           this.noti(date,this.task_to_edit.task_title)
-          console.log(date)
         }
         return
       }
@@ -184,7 +190,6 @@ export default class Task_screen extends React.Component{
     if (this.task_to_edit.task_min != null) {
       let date = new Date(this.task_to_edit.task_year, this.task_to_edit.task_month -1, this.task_to_edit.task_day, this.task_to_edit.task_hour, this.task_to_edit.task_min, 0, 0)
       this.noti(date, this.task_to_edit.task_title)
-        console.log(date)
     }
     return
   }
@@ -318,7 +323,7 @@ export default class Task_screen extends React.Component{
               <Pressable onPress={() => this.return_to_task_view()} style={{ flexDirection: "row" }}>
                 <Image source={require("./assets/images/arrow-left.png")}/>
                 <Text style={{ fontSize: 20 }}>
-                  Return
+                  {lang["return"][this.state.language]}
                 </Text>
               </Pressable>
             </View>
@@ -330,7 +335,7 @@ export default class Task_screen extends React.Component{
                   this.setState({ task_to_edit: this.task_to_edit })
                 }
                 }
-                placeholder="Task title"
+                placeholder={lang["title"][this.state.language]}
                 value={this.state.task_to_edit.task_title}
               />
               <TextInput
@@ -341,7 +346,7 @@ export default class Task_screen extends React.Component{
                   this.setState({ task_to_edit: this.task_to_edit })
                 }
                 }
-                placeholder="Task note"
+                placeholder={lang["note"][this.state.language]}
                 value={this.state.task_to_edit.task_note}
               />
             </View>
@@ -351,7 +356,7 @@ export default class Task_screen extends React.Component{
                   <View style={{ height: 50, backgroundColor: "#99D28B", margin: 10, borderRadius: 10, justifyContent:"flex-start", flexDirection:"row", alignItems:"center" }}>
                     <Image source={require("./assets/images/clock.png")} style={{margin:20}}  />
                     <Text style={{fontSize:20, fontWeight:"bold", textAlignVertical:"center"}}>
-                      { this.task_to_edit.task_min == null ? "Add reminder" :
+                      { this.task_to_edit.task_min == null ? lang["reminder"][this.state.language] :
                       this.state.task_to_edit.task_day+"/"+
                       this.state.task_to_edit.task_month+"   "+
                       this.state.task_to_edit.task_hour+":"+
@@ -378,7 +383,7 @@ export default class Task_screen extends React.Component{
             <Pressable onPress={() => this.change_to_task_view()}>
               <View style={styles.donetaskbutton}>
                 <Text style={{ textAlign: 'center' }}>
-                  Done
+                  {lang["done"][this.state.language]}
                 </Text>
               </View>
             </Pressable>
@@ -397,6 +402,7 @@ export default class Task_screen extends React.Component{
                     style={styles.input}
                     onChangeText={this.set_search_text}
                     value={this.search_text}
+                    placeholder={lang["search"][this.state.language]}
                   />
                 </View>
                 <Image source={require("./assets/images/search.png")} style={styles.search_icon} />
@@ -419,16 +425,18 @@ export default class Task_screen extends React.Component{
               <Pressable onPress={() => this.change_to_task_edit("new")}>
                 <View style={styles.addtaskbutton}>
                   <Text style={{ textAlign: 'center' }}>
-                    Add task
+                    {lang["addtask"][this.state.language]}
                   </Text>
                 </View>
               </Pressable>
             </View>
             <View style={styles.topcontainer}>
+              <Pressable onPress={() => this.props.navigation.push('Setting')} style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
               <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
                 <Image source={require("./assets/images/menu.png")} style={styles.notebar_icon} />
               </View>
-              <Pressable onPress={() => this.props.navigation.navigate('Note')} style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+              </Pressable>
+              <Pressable onPress={() => this.props.navigation.push('Note')} style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
                 <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
                   <Image source={require("./assets/images/note.png")} style={styles.notebar_icon} />
                 </View>
@@ -436,7 +444,7 @@ export default class Task_screen extends React.Component{
               <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
                 <Image source={require("./assets/images/tick_2.png")} style={styles.notebar_icon} />
               </View>
-              <Pressable onPress={() => this.props.navigation.navigate('Calendar')} style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+              <Pressable onPress={() => this.props.navigation.push('Calendar')} style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
               <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
                 <Image source={require("./assets/images/cal.png")} style={styles.notebar_icon} />
               </View>

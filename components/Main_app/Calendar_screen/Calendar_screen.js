@@ -15,7 +15,7 @@ import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import {LocaleConfig} from 'react-native-calendars';
 import taskDB from "../Database/Task_database";
 
-LocaleConfig.locales['vn'] = {
+LocaleConfig.locales['en'] = {
   monthNames: [
     'January',
     'February',
@@ -35,7 +35,27 @@ LocaleConfig.locales['vn'] = {
   dayNamesShort: [ 'Sun.','Mon.', 'Tue.', 'Wed.', 'Thur.', 'Fri.', 'Sat.'],
   today: "Today"
 };
-LocaleConfig.defaultLocale = 'vn';
+LocaleConfig.locales['vn'] = {
+  monthNames: [
+    'Tháng Một',
+    'Tháng Hai',
+    'Tháng Ba',
+    'Tháng Tư',
+    'Tháng Năm',
+    'Tháng Sáu',
+    'Tháng Bảy',
+    'Tháng Tám',
+    'Tháng Chín',
+    'Tháng Mười',
+    'Tháng Mười Một',
+    'Tháng Mười Hai'
+  ],
+  monthNamesShort: ['T.Một','T.Hai','T.Ba','T.Bốn','T.Năm','T.Sáu','T.Bảy','T.Tám','T.Chín','T.Mười','T.Mười Một','T.Mười Hai'],
+  dayNames: ['Chủ Nhật','Thứ Hai','Thứ Ba','Thứ Tư','Thứ Năm','Thứ Sáu','Thứ Bảy'],
+  dayNamesShort: ['CN','Hai','Ba','Tư','Năm','Sáu','Bảy'],
+  today: "Today"
+};
+LocaleConfig.defaultLocale = 'en';
 
 export default class Calendar_screen extends React.Component {
   constructor(props) {
@@ -197,15 +217,17 @@ export default class Calendar_screen extends React.Component {
 
         </View>
         <View style={styles.topcontainer}>
+          <Pressable onPress={() => this.props.navigation.push('Setting')} style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
           <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
             <Image source={require("./assets/images/menu.png")} style={styles.notebar_icon} />
           </View>
-          <Pressable onPress={() => this.props.navigation.navigate('Note')} style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+          </Pressable>
+          <Pressable onPress={() => this.props.navigation.push('Note')} style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
           <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
             <Image source={require("./assets/images/note.png")} style={styles.notebar_icon} />
           </View>
           </Pressable>
-          <Pressable onPress={() => this.props.navigation.navigate('Task')} style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+          <Pressable onPress={() => this.props.navigation.push('Task')} style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
             <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
               <Image source={require("./assets/images/tick.png")} style={styles.notebar_icon} />
             </View>

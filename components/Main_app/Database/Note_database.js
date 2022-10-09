@@ -8,7 +8,7 @@ export default class noteDB extends React.Component{
   }
 
   getDBconnection = async () => {
-    return openDatabase({name:'notedb.db',location:'default'});
+    return openDatabase({name:'db.db',location:'default'});
   }
 
   createtable = async (db) => {
