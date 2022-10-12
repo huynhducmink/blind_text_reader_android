@@ -14,6 +14,7 @@ import noteDB from "../Database/Note_database";
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import {LocaleConfig} from 'react-native-calendars';
 import taskDB from "../Database/Task_database";
+import Settings from "../Setting_screen/Settings";
 
 LocaleConfig.locales['en'] = {
   monthNames: [
@@ -53,7 +54,7 @@ LocaleConfig.locales['vn'] = {
   monthNamesShort: ['T.Một','T.Hai','T.Ba','T.Bốn','T.Năm','T.Sáu','T.Bảy','T.Tám','T.Chín','T.Mười','T.Mười Một','T.Mười Hai'],
   dayNames: ['Chủ Nhật','Thứ Hai','Thứ Ba','Thứ Tư','Thứ Năm','Thứ Sáu','Thứ Bảy'],
   dayNamesShort: ['CN','Hai','Ba','Tư','Năm','Sáu','Bảy'],
-  today: "Today"
+  today: "Hôm nay"
 };
 LocaleConfig.defaultLocale = 'en';
 
@@ -64,12 +65,14 @@ export default class Calendar_screen extends React.Component {
       calmarkedDates : {},
       task_list_day: [],
       task_list_day_text: "",
+      language: "",
     }
   }
 
   task_list = []
   task_list_day = []
   db = new taskDB
+  setting = new Settings
 
   calmarkedDates = {}
   calselectedDate = null
@@ -116,6 +119,8 @@ export default class Calendar_screen extends React.Component {
 
   componentDidMount = async() => {
     this.loadData()
+    let loadlang = await this.setting.loadLanguage()
+    this.setState({language:loadlang})
   }
 
   render_task = ({item}) => {
@@ -143,6 +148,7 @@ export default class Calendar_screen extends React.Component {
   }
 
   render() {
+    LocaleConfig.defaultLocale = this.state.language;
     return (
       <View style={styles.background}>
         <View style={{ flex: 6 }}>

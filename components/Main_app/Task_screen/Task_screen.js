@@ -83,7 +83,6 @@ export default class Task_screen extends React.Component{
 
     let loadlang = await this.setting.loadLanguage()
     this.setState({language:loadlang})
-    console.log("reload task screen")
   }
 
   add_task_list = async (title,note,min,hour,day,month,year,done) => {

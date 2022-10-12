@@ -69,7 +69,6 @@ export default class Note_screen extends React.Component{
 
     let loadlang = await this.setting.loadLanguage()
     this.setState({language:loadlang})
-    console.log("reload note screen")
   }
 
   add_note_list = async (title,note) => {

@@ -27,7 +27,6 @@ export default class Setting_screen extends React.Component{
     //load setting from database in this function
     let lang = await this.setting.loadLanguage()
     this.setState({language:lang})
-    console.log("reload setting screen")
   }
 
   changeLanguage = () => {
@@ -56,10 +55,10 @@ export default class Setting_screen extends React.Component{
             </Text>
           </View>
           </Pressable>
-          <View style={{width:"100%", height:60, backgroundColor:"#99D28B", borderRadius: 20, marginTop:10}}>
+          {/* <View style={{width:"100%", height:60, backgroundColor:"#99D28B", borderRadius: 20, marginTop:10}}>
           </View>
           <View style={{width:"100%", height:60, backgroundColor:"#99D28B", borderRadius: 20, marginTop:10}}>
-          </View>
+          </View> */}
         </View>
         <View style={styles.topcontainer}>
           <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
