@@ -5,7 +5,7 @@ import Calendar_screen from "./Calendar_screen/Calendar_screen";
 import Setting_screen from "./Setting_screen/Setting_screen";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import PushNotification from "react-native-push-notification";
+import PushNotification, {Importance} from "react-native-push-notification";
 
 export default class Main_app extends React.Component{
   constructor(props){
@@ -19,16 +19,18 @@ export default class Main_app extends React.Component{
       {
         channelId: "esn-channel-id", // (required)
         channelName: "My channel", // (required)
+        playSound: true, // (optional) default: true
+        soundName: "default", // (optional) See `soundName` parameter of `localNotification` function
+        importance: Importance.HIGH, // (optional) default: Importance.HIGH. Int value of the Android notification importance
+        vibrate: true, // (optional) default: true. Creates the default vibration pattern if true.
       },
     );
   }
-
-  Stack = createNativeStackNavigator();
-
   componentDidMount = async () => {
     this.createChannels()
   }
 
+  Stack = createNativeStackNavigator();
   render(){
     return(
       <NavigationContainer>

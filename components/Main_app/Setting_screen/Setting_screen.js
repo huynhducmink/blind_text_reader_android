@@ -44,12 +44,12 @@ export default class Setting_screen extends React.Component{
     return (
       <View style={styles.background}>
         <View style={{flex:10}}>
-          <Text style={{fontSize: 40, alignSelf:"center", margin: 30}}>
+          <Text style={{fontSize: 35, alignSelf:"center", margin: 20, marginBottom:50}}>
             {lang["setting"][this.state.language]}
           </Text>
           <Pressable onPress={() => this.changeLanguage()}>
-          <View style={{width:"100%", height:60, backgroundColor:"#99D28B", borderRadius: 20, marginTop:10, justifyContent:"center",paddingLeft:20}}>
-            <Text style={{fontSize:30}}>
+          <View style={{ height:60, backgroundColor:"#99D28B", borderRadius: 20, marginTop:10, justifyContent:"center",paddingLeft:20, marginLeft:20, marginRight:20}}>
+            <Text style={{fontSize:30}} adjustsFontSizeToFit={true} numberOfLines={1}>
               {lang["language"][this.state.language]}
               {this.state.language == "en" ? "  :  English" : "  :  Tiếng Việt"}
             </Text>

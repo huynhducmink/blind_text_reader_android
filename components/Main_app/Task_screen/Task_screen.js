@@ -1,4 +1,3 @@
-//to do sound noti, delete task, setting language
 import React from "react";
 import { 
   View, 
@@ -242,7 +241,8 @@ export default class Task_screen extends React.Component{
       title: title,
       message: "",
       date: date,
-      playSound: true
+      playSound: true,
+      soundName: "default"
     });
   }
   
